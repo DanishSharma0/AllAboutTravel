@@ -1,9 +1,9 @@
-/** @type {import('tailwindcss').Config} */
+
 export default {
   darkMode: 'class',
   content: [
     "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
@@ -78,33 +78,33 @@ export default {
         'wave': 'wave 3s ease-in-out infinite',
       },
       colors: {
-        brand: { // Ocean blues
+        brand: {
           50: '#f0f9ff',
           100: '#e0f2fe',
           200: '#bae6fd',
           300: '#7dd3fc',
           400: '#38bdf8',
           500: '#0ea5e9',
-          600: '#0284c7', // Vibrant primary
+          600: '#0284c7',
           700: '#0369a1',
           800: '#075985',
           900: '#0c4a6e',
           950: '#082f49',
         },
-        accent: { // Sunset corals
+        accent: {
           50: '#fff5f0',
           100: '#ffecd9',
           200: '#ffd3b3',
           300: '#ffb380',
           400: '#ff8c40',
-          500: '#f97316', // Vibrant coral/orange
+          500: '#f97316',
           600: '#e65100',
           700: '#b34000',
           800: '#8c3300',
           900: '#662600',
           950: '#3d1700',
         },
-        sand: { // Sandy beiges
+        sand: {
           50: '#fdfbf7',
           100: '#fdf6e3',
           200: '#f5e6ce',
@@ -118,9 +118,9 @@ export default {
           950: '#21180e',
         },
         dark: {
-          bg: '#0f172a',    // slate-900
-          card: '#1e293b',  // slate-800
-          border: '#334155', // slate-700
+          bg: '#0f172a',
+          card: '#1e293b',
+          border: '#334155',
         }
       },
     },

@@ -11,29 +11,29 @@ export default function RentalCard({ rental }) {
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-900 mb-2">{rental.name}</h3>
         
-        {/* Vehicle Type */}
+        {}
         <div className="flex items-center gap-2 text-gray-600 mb-2">
           <Bike size={18} />
           <span className="font-semibold">{rental.type}</span>
         </div>
 
-        {/* Location */}
+        {}
         <div className="flex items-center gap-2 text-gray-600 mb-2">
           <MapPin size={18} />
           <span>{rental.city}</span>
         </div>
 
-        {/* Features */}
+        {}
         {rental.features && (
           <p className="text-sm text-gray-600 mb-3">
             {rental.features.slice(0, 2).join(', ')}
           </p>
         )}
 
-        {/* Description */}
+        {}
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{rental.description}</p>
 
-        {/* Price & CTA */}
+        {}
         <div className="flex justify-between items-center">
           <div>
             {rental.price_per_day && (

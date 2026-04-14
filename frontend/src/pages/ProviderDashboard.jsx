@@ -20,7 +20,7 @@ export default function ProviderDashboard() {
   const [loading, setLoading] = useState(true);
   const [saveLoading, setSaveLoading] = useState(false);
 
-  // Sync state with user context when it loads
+
   useEffect(() => {
     if (user?.paymentDetails) {
       setPaymentDetails({
@@ -63,7 +63,7 @@ export default function ProviderDashboard() {
     try {
       const response = await providerAPI.updatePaymentDetails(paymentDetails);
       alert('Payment details updated successfully!');
-      // Update local context
+
       setUser({ ...user, paymentDetails: response.data.paymentDetails });
       localStorage.setItem('user', JSON.stringify({ ...user, paymentDetails: response.data.paymentDetails }));
     } catch (error) {
@@ -77,7 +77,7 @@ export default function ProviderDashboard() {
     try {
       await providerAPI.verifyPayment({ bookingId, category, status });
       alert(`Payment marked as ${status}`);
-      // Refresh bookings
+
       const bookingsRes = await providerAPI.getProviderBookings();
       setBookings(bookingsRes.data);
     } catch (error) {
@@ -102,7 +102,7 @@ export default function ProviderDashboard() {
     <div className="min-h-screen bg-slate-50 py-12 px-6">
       <div className="max-w-6xl mx-auto">
 
-        {/* Header Section */}
+        {}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <h1 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight mb-2">
@@ -122,7 +122,7 @@ export default function ProviderDashboard() {
           </Link>
         </div>
 
-        {/* Tab Navigation */}
+        {}
         <div className="flex items-center gap-2 mb-10 overflow-x-auto no-scrollbar pb-2">
           <button
             onClick={() => setActiveTab('listings')}
@@ -144,10 +144,10 @@ export default function ProviderDashboard() {
           </button>
         </div>
 
-        {/* Listings Tab */}
+        {}
         {activeTab === 'listings' && (
           <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-300">
-            {/* Stats Summary */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
               <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <p className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Total Listings</p>
@@ -167,7 +167,7 @@ export default function ProviderDashboard() {
               </div>
             </div>
 
-            {/* Hostel Listings */}
+            {}
             <section>
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-blue-100 text-blue-600 rounded-lg"><Building size={24} /></div>
@@ -184,7 +184,7 @@ export default function ProviderDashboard() {
               )}
             </section>
 
-            {/* Vehicle Listings */}
+            {}
             <section className="pt-12 border-t border-slate-200">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-orange-100 text-orange-600 rounded-lg"><Car size={24} /></div>
@@ -201,7 +201,7 @@ export default function ProviderDashboard() {
               )}
             </section>
 
-            {/* Tour Listings */}
+            {}
             <section className="pt-12 border-t border-slate-200">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg"><Map size={24} /></div>
@@ -220,7 +220,7 @@ export default function ProviderDashboard() {
           </div>
         )}
 
-        {/* Bookings Tab */}
+        {}
         {activeTab === 'bookings' && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
             <h2 className="text-2xl font-black text-slate-900 mb-8">Recent Bookings & Payments</h2>
@@ -300,7 +300,7 @@ export default function ProviderDashboard() {
           </div>
         )}
 
-        {/* Payments Tab */}
+        {}
         {activeTab === 'payments' && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-300 max-w-2xl">
             <h2 className="text-2xl font-black text-slate-900 mb-2">Payment Settings</h2>

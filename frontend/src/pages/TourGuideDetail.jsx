@@ -16,7 +16,7 @@ export default function TourGuideDetail() {
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
 
-  // Booking State
+
   const [bookingDate, setBookingDate] = useState('');
   const [endDate, setEndDate] = useState('');
   
@@ -87,7 +87,7 @@ export default function TourGuideDetail() {
         numberOfPeople,
       });
       
-      // Redirect to checkout with booking info
+
       navigate('/checkout', { 
         state: { 
           booking: response.data.booking, 
@@ -176,7 +176,7 @@ export default function TourGuideDetail() {
             <ReviewSection entityType="TourGuide" entityId={id} />
           </div>
 
-          {/* Booking Widget Sidebar */}
+          {}
           <div>
             <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 sticky top-32">
               <div className="mb-6 pb-6 border-b border-slate-100 flex items-center justify-between gap-2">

@@ -11,30 +11,30 @@ export default function PlaceCard({ place }) {
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-900 mb-2">{place.name}</h3>
         
-        {/* Location */}
+        {}
         <div className="flex items-center gap-2 text-gray-600 mb-2">
           <MapPin size={18} />
           <span>{place.city}</span>
         </div>
 
-        {/* Category */}
+        {}
         {place.category && (
           <span className="inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full mb-3">
             {place.category}
           </span>
         )}
 
-        {/* Description */}
+        {}
         <p className="text-gray-600 text-sm mb-4 line-clamp-3">{place.description}</p>
 
-        {/* Distance */}
+        {}
         {place.distance && (
           <p className="text-sm text-gray-500 mb-4">
             {place.distance} km away
           </p>
         )}
 
-        {/* CTA */}
+        {}
         <div className="flex gap-2">
           <Link
             to={`/places/${place._id}`}

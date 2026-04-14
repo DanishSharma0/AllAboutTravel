@@ -8,7 +8,7 @@ const ReviewSection = ({ entityType, entityId }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Form State
+
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -49,7 +49,7 @@ const ReviewSection = ({ entityType, entityId }) => {
       setComment('');
       setRating(5);
       
-      // Add the new review to the list immediately
+
       setReviews(prev => [res.data.review, ...prev]);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit review');
@@ -62,7 +62,7 @@ const ReviewSection = ({ entityType, entityId }) => {
     return <div className="animate-pulse flex space-x-4">Loading reviews...</div>;
   }
 
-  // Calculate Average Rating
+
   const validReviews = reviews.filter(r => r.rating);
   const avgRating = validReviews.length 
     ? (validReviews.reduce((acc, r) => acc + r.rating, 0) / validReviews.length).toFixed(1)
@@ -83,7 +83,7 @@ const ReviewSection = ({ entityType, entityId }) => {
         )}
       </div>
 
-      {/* Review Form - Only show if logged in */}
+      {}
       {user ? (
         <form onSubmit={handleSubmit} className="mb-10 bg-gray-50 rounded-xl p-6">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Write a Review</h4>
@@ -139,7 +139,7 @@ const ReviewSection = ({ entityType, entityId }) => {
         </div>
       )}
 
-      {/* Reviews List */}
+      {}
       <div className="space-y-6">
         {reviews.length === 0 ? (
           <p className="text-gray-500 italic">No reviews yet. Be the first to share your experience!</p>
@@ -156,7 +156,7 @@ const ReviewSection = ({ entityType, entityId }) => {
                   </h4>
                   <div className="flex items-center mt-1">
                     <div className="flex text-yellow-400 mr-2">
-                       {/* Render stars, clamping visual to 5 max just in case */}
+                       {}
                       {[...Array(5)].map((_, i) => (
                         i < review.rating ? 
                            <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" /> : 

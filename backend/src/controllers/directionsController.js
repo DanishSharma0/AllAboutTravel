@@ -1,7 +1,7 @@
 const axios = require('axios');
 const TouristPlace = require('../models/TouristPlace');
 
-// Get directions between two coordinates (returns GeoJSON geometry)
+
 const getDirections = async (req, res) => {
   try {
     const { startLng, startLat, endLng, endLat } = req.query;
@@ -17,7 +17,7 @@ const getDirections = async (req, res) => {
 
     const orsApiKey = process.env.ORS_API_KEY;
 
-    // Request GeoJSON geometry from OpenRouteService
+
     const response = await axios.post(
       'https://api.openrouteservice.org/v2/directions/driving-car',
       {
@@ -39,7 +39,7 @@ const getDirections = async (req, res) => {
     res.json({
       distance: route.summary?.distance || 0,
       duration: route.summary?.duration || 0,
-      geometry: route.geometry, // GeoJSON LineString
+      geometry: route.geometry,
       bbox: route.bbox,
     });
   } catch (error) {
@@ -56,7 +56,7 @@ const getDirections = async (req, res) => {
   }
 };
 
-// Get nearby attractions
+
 const getNearbyAttractions = async (req, res) => {
   try {
     const { cityId, latitude, longitude, radius = 5 } = req.query;
@@ -65,13 +65,13 @@ const getNearbyAttractions = async (req, res) => {
       return res.status(400).json({ message: 'Latitude and longitude are required' });
     }
 
-    // Find all places in city
+
     const places = await TouristPlace.find({ cityId }).lean();
 
-    // Calculate distance for each place (Haversine formula)
+
     const placesWithDistance = places
       .map((place) => {
-        const R = 6371; // Earth's radius in km
+        const R = 6371;
         const dLat = (parseFloat(latitude) - place.latitude) * (Math.PI / 180);
         const dLng = (parseFloat(longitude) - place.longitude) * (Math.PI / 180);
         const a =

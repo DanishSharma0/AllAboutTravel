@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 
-// Pages
+
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -32,13 +32,13 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route element={<Layout />}>
-            {/* Public Routes */}
+            {}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/map" element={<Map />} />
 
-            {/* Listings */}
+            {}
             <Route path="/hostels" element={<Hostels />} />
             <Route path="/hostels/:id" element={<HostelDetail />} />
             <Route path="/tour-guides" element={<TourGuides />} />
@@ -49,7 +49,7 @@ function App() {
             <Route path="/rentals/:id" element={<RentalDetail />} />
             <Route path="/products" element={<Products />} />
 
-            {/* Protected Routes */}
+            {}
             <Route
               path="/profile"
               element={
@@ -91,7 +91,7 @@ function App() {
               }
             />
 
-            {/* Provider-only Routes */}
+            {}
             <Route
               path="/provider-dashboard"
               element={
@@ -109,7 +109,7 @@ function App() {
               }
             />
 
-            {/* Catch all */}
+            {}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

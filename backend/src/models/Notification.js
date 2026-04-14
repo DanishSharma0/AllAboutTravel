@@ -21,7 +21,7 @@ const notificationSchema = new mongoose.Schema(
       default: 'SYSTEM',
     },
     relatedId: {
-      type: mongoose.Schema.Types.ObjectId, // ID of the booking, review, etc.
+      type: mongoose.Schema.Types.ObjectId,
     },
     onModel: {
       type: String,

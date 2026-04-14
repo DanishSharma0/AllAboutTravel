@@ -2,7 +2,7 @@ const TouristPlace = require('../models/TouristPlace');
 const mongoose = require('mongoose');
 const City = require('../models/City');
 
-// Get all places (with optional city search)
+
 const getAllPlaces = async (req, res) => {
   try {
     const { city } = req.query;
@@ -23,7 +23,7 @@ const getAllPlaces = async (req, res) => {
   }
 };
 
-// Get places by city
+
 const getPlacesByCity = async (req, res) => {
   try {
     const { cityId } = req.params;
@@ -47,7 +47,7 @@ const getPlacesByCity = async (req, res) => {
   }
 };
 
-// Get place details
+
 const getPlaceDetails = async (req, res) => {
   try {
     const { placeId } = req.params;
@@ -67,7 +67,7 @@ const getPlaceDetails = async (req, res) => {
   }
 };
 
-// Search places
+
 const searchPlaces = async (req, res) => {
   try {
     const { q, cityId } = req.query;
@@ -95,7 +95,7 @@ const searchPlaces = async (req, res) => {
   }
 };
 
-// Get place categories
+
 const getCategories = async (req, res) => {
   try {
     const categories = await TouristPlace.distinct('category');

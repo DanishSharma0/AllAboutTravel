@@ -1,7 +1,7 @@
 const Product = require('../models/Product');
 const Order = require('../models/Order');
 
-// Get products by city
+
 const getProductsByCity = async (req, res) => {
   try {
     const { cityId } = req.params;
@@ -22,7 +22,7 @@ const getProductsByCity = async (req, res) => {
   }
 };
 
-// Get product details
+
 const getProductDetails = async (req, res) => {
   try {
     const { productId } = req.params;
@@ -42,17 +42,17 @@ const getProductDetails = async (req, res) => {
   }
 };
 
-// Create order (protected)
+
 const createOrder = async (req, res) => {
   try {
-    const { items } = req.body; // items: [{productId, quantity}, ...]
+    const { items } = req.body;
     const userId = req.user.userId;
 
     if (!items || items.length === 0) {
       return res.status(400).json({ message: 'Cart items are required' });
     }
 
-    // Calculate total price and prepare order items
+
     let totalAmount = 0;
     const orderItems = [];
 
@@ -70,7 +70,7 @@ const createOrder = async (req, res) => {
       });
     }
 
-    // Create order
+
     const order = new Order({
       userId,
       items: orderItems,
@@ -94,7 +94,7 @@ const createOrder = async (req, res) => {
   }
 };
 
-// Get user orders (protected)
+
 const getUserOrders = async (req, res) => {
   try {
     const userId = req.user.userId;

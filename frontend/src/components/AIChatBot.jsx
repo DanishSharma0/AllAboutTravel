@@ -9,7 +9,7 @@ export default function HologramBot() {
   const [input, setInput] = useState("");
   const location = useLocation();
 
-  // Contextual messages based on route changes
+
   useEffect(() => {
     const sendContextualGreeting = () => {
       let msg = "";
@@ -25,7 +25,7 @@ export default function HologramBot() {
 
       if (msg && currentMessage !== msg) {
         setIsTyping(true);
-        setCurrentMessage(""); // Clear current message to simulate thinking
+        setCurrentMessage("");
         setIsInputOpen(false);
         setTimeout(() => {
           setCurrentMessage(msg);
@@ -48,7 +48,7 @@ export default function HologramBot() {
     setCurrentMessage("");
     setIsTyping(true);
 
-    // Simulated Bot AI Response
+
     setTimeout(() => {
       const lowerQuery = userMsg.toLowerCase();
       let reply = "I am processing your request. Currently, I am a simulated holographic assistant. Please use the navigation above to explore.";
@@ -73,21 +73,21 @@ export default function HologramBot() {
   return (
     <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-6 font-sans">
       
-      {/* Holographic Speech Bubble Area */}
+      {}
       {(currentMessage || isTyping || isInputOpen) && (
         <div className="relative flex flex-col items-end animate-fade-in origin-bottom-right">
           
-          {/* Main Hologram Message Display */}
+          {}
           <div className="relative max-w-[320px] bg-cyan-900/60 backdrop-blur-md border hover:border-cyan-300 transition duration-300 border-cyan-400/50 p-5 rounded-2xl rounded-br-none shadow-[0_0_20px_rgba(0,255,255,0.2)]">
             <div className="absolute top-0 right-0 -trate-y-1/2 translate-x-1/2">
-               {/* Decorative holographic nodes */}
+               {}
                <div className="w-2 h-2 rounded-full bg-cyan-300 shadow-[0_0_8px_rgba(0,255,255,1)]"></div>
             </div>
             <div className="absolute bottom-0 left-0 -translate-x-1/2 translate-y-1/2">
                <div className="w-2 h-2 rounded-full bg-cyan-300 shadow-[0_0_8px_rgba(0,255,255,1)]"></div>
             </div>
 
-            {/* Close Button for Hologram box */}
+            {}
             {currentMessage && !isTyping && (
               <button 
                 onClick={() => { setCurrentMessage(""); setIsInputOpen(false); }} 
@@ -109,7 +109,7 @@ export default function HologramBot() {
             </div>
           </div>
 
-          {/* Hologram Input Field */}
+          {}
           {isInputOpen && (
             <form onSubmit={handleSend} className="mt-4 relative w-full flex animate-slide-up shadow-[0_0_15px_rgba(0,255,255,0.1)]">
               <input 
@@ -131,21 +131,21 @@ export default function HologramBot() {
             </form>
           )}
 
-          {/* Connection Line to Orb */}
+          {}
           <div className="absolute -bottom-6 right-8 w-px h-6 bg-gradient-to-b from-cyan-400/50 to-transparent"></div>
         </div>
       )}
 
-      {/* Futuristic Hologram Orb */}
+      {}
       <div className="relative group cursor-pointer" onClick={() => !isTyping && setIsInputOpen(!isInputOpen)}>
-        {/* Glowing Aura */}
+        {}
         <div className="absolute inset-0 bg-cyan-400 rounded-full blur-2xl opacity-40 group-hover:opacity-70 animate-pulse transition duration-500"></div>
         <div className="absolute inset-2 bg-blue-500 rounded-full blur-xl opacity-50 animate-bounce cursor-pointer"></div>
         
-        {/* Core Element */}
+        {}
         <div className="relative w-16 h-16 bg-gradient-to-br from-cyan-300 via-blue-500 to-indigo-900 rounded-full flex flex-col items-center justify-center border border-cyan-200/50 shadow-[0_0_20px_rgba(0,255,255,0.4)] z-10 overflow-hidden group-hover:scale-105 transition-transform duration-300">
           
-          {/* Inner rings simulating tech */}
+          {}
           <div className="absolute inset-1 border border-cyan-100/30 rounded-full animate-[spin_4s_linear_infinite]"></div>
           <div className="absolute inset-2 border-t border-cyan-50/40 rounded-full animate-[spin_3s_linear_infinite_reverse]"></div>
           

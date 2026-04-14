@@ -11,7 +11,7 @@ const PaymentModal = ({ isOpen, onClose, bookingId, category, totalPrice, provid
 
   if (!isOpen) return null;
 
-  // Generate UPI URI
+
   // upi://pay?pa=address@bank&pn=PayeeName&am=Amount&cu=INR
   const upiUri = `upi://pay?pa=${providerDetails?.upiId || ''}&pn=${encodeURIComponent(providerDetails?.businessName || 'Provider')}&am=${totalPrice}&cu=INR&tn=${encodeURIComponent('Booking for ' + listingName)}`;
 
@@ -73,7 +73,7 @@ const PaymentModal = ({ isOpen, onClose, bookingId, category, totalPrice, provid
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div className="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl relative animate-in fade-in slide-in-from-bottom-8 duration-300">
         
-        {/* Header */}
+        {}
         <div className="p-6 border-b border-slate-100 flex items-center justify-between">
           <div>
             <h3 className="text-xl font-black text-slate-900">Complete Payment</h3>
@@ -86,7 +86,7 @@ const PaymentModal = ({ isOpen, onClose, bookingId, category, totalPrice, provid
 
         <div className="p-8 overflow-y-auto max-h-[80vh]">
           
-          {/* Amount Summary */}
+          {}
           <div className="bg-blue-50 rounded-2xl p-4 mb-8 flex items-center justify-between border border-blue-100">
             <div className="flex items-center gap-3">
               <div className="bg-blue-600 p-2 rounded-lg">
@@ -110,14 +110,14 @@ const PaymentModal = ({ isOpen, onClose, bookingId, category, totalPrice, provid
             </div>
           ) : (
             <>
-              {/* QR Code Section */}
+              {}
               <div className="flex flex-col items-center mb-8">
                 <div className="p-4 bg-white rounded-2xl shadow-sm border border-slate-200 mb-4">
                   <QRCodeCanvas value={upiUri} size={200} />
                 </div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-6">Scan with Google Pay, PhonePe, or BHIM</p>
                 
-                {/* Mobile Intent Link */}
+                {}
                 <a 
                   href={upiUri} 
                   className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white border-2 border-slate-900 text-slate-900 rounded-xl font-bold hover:bg-slate-50 transition-colors mb-4 md:hidden"
@@ -126,7 +126,7 @@ const PaymentModal = ({ isOpen, onClose, bookingId, category, totalPrice, provid
                   Open in UPI App
                 </a>
 
-                {/* UPI ID Details */}
+                {}
                 <div className="w-full bg-slate-50 rounded-xl p-4 border border-slate-100 flex items-center justify-between">
                   <div className="overflow-hidden">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">UPI ID</p>
@@ -141,7 +141,7 @@ const PaymentModal = ({ isOpen, onClose, bookingId, category, totalPrice, provid
                 </div>
               </div>
 
-              {/* Transaction ID Form */}
+              {}
               <div className="border-t border-slate-100 pt-8 mt-4">
                 <form onSubmit={handleSubmit}>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">After payment, enter Transaction ID</label>

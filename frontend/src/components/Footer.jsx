@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className="bg-sand-100 text-slate-600 py-12 border-t border-sand-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* About */}
+          {}
           <div>
             <h3 className="text-lg font-bold mb-4 text-slate-900">TravelHub</h3>
             <p>
@@ -11,7 +11,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
+          {}
           <div>
             <h3 className="text-lg font-bold mb-4 text-slate-900">Quick Links</h3>
             <ul className="space-y-2">
@@ -22,7 +22,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Services */}
+          {}
           <div>
             <h3 className="text-lg font-bold mb-4 text-slate-900">Services</h3>
             <ul className="space-y-2">
@@ -32,7 +32,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
+          {}
           <div>
             <h3 className="text-lg font-bold mb-4 text-slate-900">Contact</h3>
             <p>

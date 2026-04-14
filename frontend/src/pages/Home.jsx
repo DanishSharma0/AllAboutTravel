@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Calendar, Users, ArrowRight, Star, ChevronDown, Sparkles, Wind, Waves } from 'lucide-react';
 
-/* ─── Custom hook: fires when element enters viewport ─── */
+
 function useInView(options = {}) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
@@ -18,7 +18,7 @@ function useInView(options = {}) {
   return [ref, inView];
 }
 
-/* ─── Animated counter ─── */
+
 function Counter({ target, suffix = '', duration = 2000 }) {
   const [count, setCount] = useState(0);
   const [ref, inView] = useInView();
@@ -36,7 +36,7 @@ function Counter({ target, suffix = '', duration = 2000 }) {
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 
-/* ─── Animated section wrapper ─── */
+
 function AnimateIn({ children, className = '', delay = 0, direction = 'up' }) {
   const [ref, inView] = useInView();
   const base = 'transition-all duration-700 ease-out';
@@ -59,7 +59,7 @@ function AnimateIn({ children, className = '', delay = 0, direction = 'up' }) {
   );
 }
 
-/* ─── Stay Card ─── */
+
 function StayCard({ img, title, desc, price, delay }) {
   const [hovered, setHovered] = useState(false);
   return (
@@ -92,7 +92,7 @@ function StayCard({ img, title, desc, price, delay }) {
   );
 }
 
-/* ─── Experience Card ─── */
+
 function ExperienceCard({ img, title, delay }) {
   return (
     <AnimateIn delay={delay} direction="scale">
@@ -109,7 +109,7 @@ function ExperienceCard({ img, title, delay }) {
   );
 }
 
-/* ─── Offer Card ─── */
+
 function OfferCard({ img, badge, badgeColor, title, desc, delay }) {
   return (
     <AnimateIn delay={delay} direction="up">
@@ -129,7 +129,7 @@ function OfferCard({ img, badge, badgeColor, title, desc, delay }) {
   );
 }
 
-/* ─── Testimonial Card ─── */
+
 function TestimonialCard({ quote, name, location, avatar, delay }) {
   return (
     <AnimateIn delay={delay} direction="up">
@@ -150,9 +150,7 @@ function TestimonialCard({ quote, name, location, avatar, delay }) {
   );
 }
 
-/* ══════════════════════════════════════
-   MAIN COMPONENT
-══════════════════════════════════════ */
+
 export default function Home() {
   const navigate = useNavigate();
   const [destination, setDestination] = useState('');
@@ -160,13 +158,13 @@ export default function Home() {
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState('2 Adults, 1 Child');
   const heroRef = useRef(null);
-  const bgRef = useRef(null);       // parallax background layer
-  const contentRef = useRef(null);  // hero text layer
+  const bgRef = useRef(null);
+  const contentRef = useRef(null);
   const rafRef = useRef(null);
   const mouse = useRef({ x: 0, y: 0 });
   const scroll = useRef(0);
 
-  /* Single RAF loop — updates DOM directly, zero React re-renders */
+  
   useEffect(() => {
     const tick = () => {
       const mx = mouse.current.x;
@@ -238,12 +236,12 @@ export default function Home() {
   return (
     <div className="font-sans text-slate-800 bg-white overflow-x-hidden">
 
-      {/* ── HERO ── */}
+      {}
       <section
         ref={heroRef}
         className="relative h-[72vh] min-h-[540px] w-full bg-slate-900 flex flex-col items-center pt-20 pb-32 overflow-hidden"
       >
-        {/* Parallax background — moved by RAF loop via bgRef */}
+        {}
         <div
           ref={bgRef}
           className="absolute inset-0 will-change-transform"
@@ -252,17 +250,17 @@ export default function Home() {
           <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Mountain Harmony Resort" className="w-full h-full object-cover opacity-75" />
         </div>
 
-        {/* Gradient overlays */}
+        {}
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-transparent h-32" />
         <div className="absolute inset-0 bg-gradient-to-r from-blue-950/30 via-transparent to-blue-950/30" />
 
-        {/* Floating orbs */}
+        {}
         <div className="absolute top-16 left-[8%] w-48 h-48 rounded-full bg-accent-500/10 blur-3xl animate-float-slow pointer-events-none" />
         <div className="absolute bottom-24 right-[10%] w-64 h-64 rounded-full bg-brand-500/10 blur-3xl animate-float pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-white/5 blur-3xl animate-float-fast pointer-events-none" />
 
-        {/* Floating particles */}
+        {}
         {[...Array(8)].map((_, i) => (
           <div
             key={i}
@@ -278,12 +276,12 @@ export default function Home() {
           />
         ))}
 
-        {/* Hero content — moved by RAF loop via contentRef */}
+        {}
         <div
           ref={contentRef}
           className="relative z-10 w-full max-w-7xl mx-auto px-4 flex flex-col justify-start items-center text-center text-white will-change-transform"
         >
-          {/* Badge */}
+          {}
           <div className="animate-fade-in opacity-0 mb-4 flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-lg">
             <Sparkles size={11} className="text-accent-400 animate-pulse" />
             #1 Mountain Retreat in the Himalayas
@@ -318,13 +316,13 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
+        {}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce opacity-60">
           <span className="text-white text-[9px] uppercase tracking-widest">Scroll</span>
           <ChevronDown size={16} className="text-white" />
         </div>
 
-        {/* Bottom wave SVG */}
+        {}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" style={{ height: '60px' }}>
           <svg viewBox="0 0 1440 60" className="w-full h-full fill-white animate-wave">
             <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" />
@@ -332,12 +330,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── BOOKING WIDGET + EXCLUSIVE STAYS ── */}
+      {}
       <section className="relative w-full bg-white z-20 pb-20">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
 
-            {/* Booking Widget */}
+            {}
             <AnimateIn direction="left" className="w-full lg:w-[330px] xl:w-[350px] flex-shrink-0 relative z-30">
               <div className="bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.18)] p-6 xl:p-7 border border-sand-100 -mt-12 lg:-mt-20">
                 <h3 className="text-sm font-bold text-slate-700 uppercase tracking-widest mb-5 flex items-center gap-2">
@@ -386,7 +384,7 @@ export default function Home() {
               </div>
             </AnimateIn>
 
-            {/* Exclusive Stays */}
+            {}
             <div className="flex-1 w-full pt-10 lg:pt-6 min-w-0">
               <AnimateIn direction="right">
                 <div className="text-center mb-8">
@@ -402,9 +400,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── STATS BAR ── */}
+      {}
       <section className="py-14 px-4 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
-        {/* Shimmer line */}
+        {}
         <div className="absolute inset-0 opacity-10 bg-gradient-to-r from-transparent via-white to-transparent animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/4 w-px h-full bg-white/5" />
@@ -430,7 +428,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── RESORT EXPERIENCES ── */}
+      {}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-sand-50 border-t border-sand-100/50">
         <div className="max-w-[1200px] mx-auto">
           <AnimateIn>
@@ -445,7 +443,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── SPECIAL OFFERS ── */}
+      {}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-sand-100">
         <div className="max-w-[1200px] mx-auto">
           <AnimateIn>
@@ -461,7 +459,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
+      {}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-sand-50 to-white border-t border-sand-100">
         <div className="max-w-[1200px] mx-auto">
           <AnimateIn>
@@ -477,13 +475,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CTA BANNER ── */}
+      {}
       <section className="relative py-28 px-4 overflow-hidden">
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?q=80&w=2000&auto=format&fit=crop" alt="Ocean View" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/75 to-slate-900/50" />
         </div>
-        {/* Floating ring decoration */}
+        {}
         <div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-64 h-64 rounded-full border border-white/10 animate-spin-slow pointer-events-none hidden lg:block" />
         <div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-96 h-96 rounded-full border border-white/5 animate-spin-slow pointer-events-none hidden lg:block" style={{ animationDirection: 'reverse', animationDuration: '18s' }} />
         <div className="relative z-10 max-w-2xl text-white">

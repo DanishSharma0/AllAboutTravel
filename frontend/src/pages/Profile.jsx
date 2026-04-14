@@ -26,7 +26,7 @@ export default function Profile() {
   const handleSave = async () => {
     setLoading(true);
     try {
-      // Update profile in backend
+
       localStorage.setItem('user', JSON.stringify(profile));
       setEditing(false);
       alert('Profile updated successfully!');
@@ -56,7 +56,7 @@ export default function Profile() {
             </div>
 
             <div className="space-y-6">
-              {/* Name */}
+              {}
               <div>
                 <label className="block text-gray-700 font-semibold mb-2">
                   <User size={18} className="inline mr-2" />
@@ -75,7 +75,7 @@ export default function Profile() {
                 )}
               </div>
 
-              {/* Email */}
+              {}
               <div>
                 <label className="block text-gray-700 font-semibold mb-2">
                   <Mail size={18} className="inline mr-2" />
@@ -94,7 +94,7 @@ export default function Profile() {
                 )}
               </div>
 
-              {/* Phone */}
+              {}
               <div>
                 <label className="block text-gray-700 font-semibold mb-2">
                   <Phone size={18} className="inline mr-2" />
@@ -113,7 +113,7 @@ export default function Profile() {
                 )}
               </div>
 
-              {/* Save Button */}
+              {}
               {editing && (
                 <button
                   onClick={handleSave}

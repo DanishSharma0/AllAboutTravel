@@ -13,7 +13,7 @@ export default function AddListing() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Form State
+
   const [formData, setFormData] = useState({
     cityId: '',
     name: '',
@@ -138,7 +138,7 @@ export default function AddListing() {
               </div>
             )}
 
-            {/* Category Selector */}
+            {}
             <div className="grid grid-cols-3 gap-4 mb-8">
               <button
                 type="button"
@@ -168,7 +168,7 @@ export default function AddListing() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               
-              {/* Common Fields */}
+              {}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs font-bold text-slate-500 tracking-wider uppercase mb-2">City</label>
@@ -197,7 +197,7 @@ export default function AddListing() {
                 </div>
               </div>
 
-              {/* Specific Fields */}
+              {}
               {category === 'hostel' && (
                 <>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

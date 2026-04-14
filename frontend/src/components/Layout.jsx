@@ -11,7 +11,7 @@ const Layout = () => {
     const isAuthPage = AUTH_ROUTES.includes(location.pathname);
 
     if (isAuthPage) {
-        // Auth pages get NO header, NO footer, NO padding — full-screen only
+
         return (
             <>
                 <Outlet />

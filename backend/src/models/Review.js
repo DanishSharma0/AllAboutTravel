@@ -14,7 +14,7 @@ const reviewSchema = new mongoose.Schema({
   entityId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    // Dynamic reference based on entityType (polymorphic)
+
   },
   rating: {
     type: Number,
@@ -29,7 +29,7 @@ const reviewSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// Ensure a user can only leave one review per entity
+
 reviewSchema.index({ user: 1, entityType: 1, entityId: 1 }, { unique: true });
 
 module.exports = mongoose.model('Review', reviewSchema);

@@ -17,14 +17,14 @@ export default function HostelDetail() {
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
 
-  // Booking State
+
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [roomType, setRoomType] = useState('Dorm');
   const [numberOfGuests, setNumberOfGuests] = useState(1);
   const [numNights, setNumNights] = useState(0);
 
-  // Payment Modal State
+
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [bookingData, setBookingData] = useState(null);
 
@@ -32,7 +32,7 @@ export default function HostelDetail() {
     fetchHostelDetails();
   }, [id]);
 
-  // Recalculate nights whenever dates change
+
   useEffect(() => {
     if (checkIn && checkOut) {
       const inDate = new Date(checkIn);
@@ -78,7 +78,7 @@ export default function HostelDetail() {
         numberOfGuests,
       });
       
-      // Redirect to checkout with booking info
+
       navigate('/checkout', { 
         state: { 
           booking: response.data.booking, 
@@ -125,10 +125,10 @@ export default function HostelDetail() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
-          {/* Main Details Section */}
+          {}
           <div className="lg:col-span-2">
             
-            {/* Header / Title */}
+            {}
             <div className="mb-8">
               <div className="flex items-center gap-2 text-blue-600 font-bold uppercase tracking-widest text-[10px] mb-3">
                 <MapPin size={14} />
@@ -148,7 +148,7 @@ export default function HostelDetail() {
               </div>
             </div>
 
-            {/* Image Gallery (Main Image) */}
+            {}
             <div className="w-full h-96 bg-slate-200 rounded-2xl overflow-hidden mb-12 shadow-sm border border-slate-100">
               {hostel.image ? (
                 <img src={hostel.image} alt={hostel.name} className="w-full h-full object-cover" />
@@ -159,7 +159,7 @@ export default function HostelDetail() {
               )}
             </div>
 
-            {/* Description */}
+            {}
             <div className="mb-12">
               <h2 className="text-2xl font-bold text-slate-900 mb-6">About this space</h2>
               <p className="text-slate-600 leading-relaxed text-lg">
@@ -167,7 +167,7 @@ export default function HostelDetail() {
               </p>
             </div>
 
-            {/* Amenities */}
+            {}
             <div className="mb-12 border-t border-slate-200 pt-12">
               <h2 className="text-2xl font-bold text-slate-900 mb-8">What this place offers</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6">
@@ -177,7 +177,7 @@ export default function HostelDetail() {
                 <div className="flex items-center gap-3 font-semibold text-slate-700">
                   <Users className="text-slate-400" /> Common Lounge
                 </div>
-                {/* Dynamically render array if available */}
+                {}
                 {hostel.facilities?.map((fac, idx) => (
                    <div key={idx} className="flex items-center gap-3 font-semibold text-slate-700">
                      <div className="w-1.5 h-1.5 rounded-full bg-slate-300"></div> {fac}
@@ -189,7 +189,7 @@ export default function HostelDetail() {
             <ReviewSection entityType="Hostel" entityId={id} />
           </div>
 
-          {/* Booking Widget Sidebar */}
+          {}
           <div>
             <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 sticky top-32">
               <div className="mb-6 pb-6 border-b border-slate-100 flex items-end gap-2">
@@ -199,7 +199,7 @@ export default function HostelDetail() {
 
               <div className="space-y-5 mb-8">
                 
-                {/* Dates Section */}
+                {}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 focus-within:border-slate-400 focus-within:ring-1 focus-within:ring-slate-400 transition">
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Check-In</label>
@@ -223,7 +223,7 @@ export default function HostelDetail() {
                   </div>
                 </div>
 
-                {/* Setup Section */}
+                {}
                 <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 focus-within:border-slate-400 focus-within:ring-1 focus-within:ring-slate-400 transition">
                   <label className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">
                     <BedDouble size={12} /> Room Type
@@ -253,7 +253,7 @@ export default function HostelDetail() {
 
               </div>
 
-              {/* Live Cost Calculation */}
+              {}
               {numNights > 0 && (
                 <div className="mb-8 space-y-3">
                   <div className="flex justify-between text-slate-600 font-medium">

@@ -11,20 +11,20 @@ export default function TourGuideCard({ guide }) {
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-900 mb-2">{guide.name}</h3>
         
-        {/* Location */}
+        {}
         <div className="flex items-center gap-2 text-gray-600 mb-2">
           <MapPin size={18} />
           <span>{guide.city}</span>
         </div>
 
-        {/* Experience */}
+        {}
         {guide.experience && (
           <p className="text-sm text-gray-600 mb-2">
             {guide.experience} years experience
           </p>
         )}
 
-        {/* Rating */}
+        {}
         {guide.rating && (
           <div className="flex items-center gap-1 mb-3">
             {[...Array(5)].map((_, i) => (
@@ -38,17 +38,17 @@ export default function TourGuideCard({ guide }) {
           </div>
         )}
 
-        {/* Languages */}
+        {}
         {guide.languages && (
           <div className="text-sm text-gray-600 mb-4">
             Languages: {guide.languages.join(', ')}
           </div>
         )}
 
-        {/* About */}
+        {}
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{guide.bio}</p>
 
-        {/* Price & CTA */}
+        {}
         <div className="flex justify-between items-center">
           {guide.price_per_day && (
             <span className="text-lg font-bold text-indigo-600">

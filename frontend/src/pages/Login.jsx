@@ -54,7 +54,7 @@ export default function Login() {
           position: relative;
         }
 
-        /* Overlay */
+        
         .auth-page::before {
           content: '';
           position: absolute;
@@ -68,7 +68,7 @@ export default function Login() {
           pointer-events: none;
         }
 
-        /* ── Transparent Navbar ── */
+        
         .auth-navbar {
           position: relative;
           z-index: 20;
@@ -133,7 +133,7 @@ export default function Login() {
           background: rgba(255,255,255,0.25);
         }
 
-        /* ── Body ── */
+        
         .auth-body {
           position: relative;
           z-index: 10;
@@ -143,7 +143,7 @@ export default function Login() {
           justify-content: flex-start;
         }
 
-        /* ── Glass Card ── */
+        
         .glass-card {
           width: 420px;
           min-width: 320px;
@@ -177,7 +177,7 @@ export default function Login() {
           margin-bottom: 30px;
         }
 
-        /* Error */
+        
         .error-banner {
           background: rgba(239,68,68,0.18);
           border: 1px solid rgba(239,68,68,0.40);
@@ -194,7 +194,7 @@ export default function Login() {
 
         @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-        /* Fields */
+        
         .field { margin-bottom: 18px; }
 
         .field label {
@@ -257,7 +257,7 @@ export default function Login() {
         }
         .toggle-pw:hover { color: rgba(255,255,255,0.80); }
 
-        /* Row */
+        
         .form-row {
           display: flex;
           align-items: center;
@@ -288,7 +288,7 @@ export default function Login() {
         }
         .forgot-link:hover { color: #38bdf8; }
 
-        /* Button */
+        
         .btn-submit {
           width: 100%;
           padding: 14px;
@@ -337,7 +337,7 @@ export default function Login() {
         }
         .alt-link a:hover { color: #fb923c; }
 
-        /* Quote Side */
+        
         .quote-side {
           flex: 1;
           padding: clamp(32px,6vw,80px);
@@ -377,7 +377,7 @@ export default function Login() {
           max-width: 360px;
         }
 
-        /* Responsive */
+        
         @media (max-width: 768px) {
           .auth-navbar { padding: 16px 20px; }
           .auth-nav-links a:not(.nav-btn) { display: none; }
@@ -390,7 +390,7 @@ export default function Login() {
 
       <div className="auth-page">
 
-        {/* ── Transparent Navbar ── */}
+        {}
         <nav className="auth-navbar">
           <Link to="/" className="auth-nav-logo">
             <span className="logo-icon">🏔️</span>
@@ -404,10 +404,10 @@ export default function Login() {
           </div>
         </nav>
 
-        {/* ── Main Body ── */}
+        {}
         <div className="auth-body">
 
-          {/* Glass Card */}
+          {}
           <div className="glass-card">
             <h1 className="card-title">Welcome Back</h1>
             <p className="card-subtitle">Sign in to continue your adventure</p>
@@ -419,7 +419,7 @@ export default function Login() {
             )}
 
             <form onSubmit={handleSubmit}>
-              {/* Email */}
+              {}
               <div className="field">
                 <label htmlFor="login-email">Email</label>
                 <div className="input-wrap">
@@ -440,7 +440,7 @@ export default function Login() {
                 </div>
               </div>
 
-              {/* Password */}
+              {}
               <div className="field">
                 <label htmlFor="login-password">Password</label>
                 <div className="input-wrap">
@@ -475,7 +475,7 @@ export default function Login() {
                 </div>
               </div>
 
-              {/* Remember + Forgot */}
+              {}
               <div className="form-row">
                 <label className="remember">
                   <input type="checkbox" /> Remember me
@@ -493,7 +493,7 @@ export default function Login() {
             </form>
           </div>
 
-          {/* Quote Side */}
+          {}
           <div className="quote-side">
             <p className="quote-text">THE MOUNTAINS ARE CALLING AND I MUST GO.</p>
             <div className="quote-divider" />

@@ -30,7 +30,7 @@ export default function Header() {
     <header className="bg-white border-b border-slate-100 sticky top-0 z-50">
       <nav className="w-full px-6 lg:px-12 py-4 flex items-center justify-between">
         
-        {/* Desktop Navigation - Left Split */}
+        {}
         <div className="hidden lg:flex flex-1 gap-6 xl:gap-8 items-center justify-start">
           <Link to="/hostels" className="text-slate-500 text-xs xl:text-sm tracking-widest uppercase hover:text-slate-900 transition font-semibold">
             Hostels
@@ -52,14 +52,14 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Center Logo */}
+        {}
         <div className="flex-shrink-0 flex items-center justify-center">
           <Link to="/">
             <Logo className="w-56 hover:opacity-90 transition-opacity" />
           </Link>
         </div>
 
-        {/* Desktop Actions - Right Split */}
+        {}
         <div className="hidden lg:flex flex-1 justify-end items-center gap-6">
           {user ? (
              <div className="flex items-center gap-6">
@@ -115,7 +115,7 @@ export default function Header() {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
+        {}
         <div className="lg:hidden flex flex-1 justify-end">
           <button
             className="text-slate-600 hover:text-slate-900 p-2"
@@ -126,7 +126,7 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile Menu Dropdown */}
+      {}
       {mobileMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 shadow-xl overflow-hidden animate-in slide-in-from-top-2 duration-200">
           <div className="px-6 py-4 flex flex-col gap-4">

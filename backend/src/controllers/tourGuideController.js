@@ -5,7 +5,7 @@ const User = require('../models/User');
 const Notification = require('../models/Notification');
 const City = require('../models/City');
 
-// Get all guides (with optional city search)
+
 const getAllGuides = async (req, res) => {
   try {
     const { city } = req.query;
@@ -26,7 +26,7 @@ const getAllGuides = async (req, res) => {
   }
 };
 
-// Get tour guides by city
+
 const getGuidesByCity = async (req, res) => {
   try {
     const { cityId } = req.params;
@@ -40,7 +40,7 @@ const getGuidesByCity = async (req, res) => {
   }
 };
 
-// Get guide details
+
 const getGuideDetails = async (req, res) => {
   try {
     const { guideId } = req.params;
@@ -58,7 +58,7 @@ const getGuideDetails = async (req, res) => {
   }
 };
 
-// Book tour guide (protected)
+
 const bookGuide = async (req, res) => {
   try {
     const { guideId, bookingDate, endDate, duration, numberOfPeople } = req.body;
@@ -74,7 +74,7 @@ const bookGuide = async (req, res) => {
       return res.status(404).json({ message: 'Guide not found' });
     }
 
-    // Calculate total price based on duration
+
     let totalPrice = 0;
     if (duration === 'Hourly') {
       const hours = 1;
@@ -88,7 +88,7 @@ const bookGuide = async (req, res) => {
       totalPrice = guide.chargesPerDay * days * numberOfPeople;
     }
 
-    // Create booking
+
     const booking = new GuideBooking({
       userId,
       guideId,
@@ -102,10 +102,10 @@ const bookGuide = async (req, res) => {
 
     await booking.save();
 
-    // Fetch provider details for payment
+
     const provider = await User.findById(guide.providerId).select('paymentDetails businessDetails name');
 
-    // Notify provider of new booking
+
     await Notification.create({
       recipient: guide.providerId,
       sender: userId,

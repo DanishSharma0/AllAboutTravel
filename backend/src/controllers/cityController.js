@@ -1,6 +1,6 @@
 const City = require('../models/City');
 
-// Get all cities with search
+
 const getCities = async (req, res) => {
   try {
     const { search, limit = 20, offset = 0 } = req.query;
@@ -28,7 +28,7 @@ const getCities = async (req, res) => {
   }
 };
 
-// Get city details
+
 const getCityDetails = async (req, res) => {
   try {
     const { cityId } = req.params;
@@ -46,7 +46,7 @@ const getCityDetails = async (req, res) => {
   }
 };
 
-// Search cities (autocomplete)
+
 const searchCities = async (req, res) => {
   try {
     const { q } = req.query;

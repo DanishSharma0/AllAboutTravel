@@ -2,17 +2,13 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Payment = require('../models/Payment');
 
-// Initialize Razorpay
+
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-/**
- * @desc    Create a new Razorpay order
- * @route   POST /api/payment/create-order
- * @access  Private
- */
+
 const createOrder = async (req, res) => {
   try {
     const { amount, receipt } = req.body;
@@ -23,7 +19,7 @@ const createOrder = async (req, res) => {
     }
 
     const options = {
-      amount: amount * 100, // amount in smallest currency unit (paise for INR)
+      amount: amount * 100,
       currency: 'INR',
       receipt: receipt || `receipt_${Date.now()}`,
     };
@@ -34,7 +30,7 @@ const createOrder = async (req, res) => {
       return res.status(500).json({ message: 'Failed to create Razorpay order' });
     }
 
-    // Save initial payment record
+
     await Payment.create({
       userId,
       orderId: order.id,
@@ -60,11 +56,7 @@ const createOrder = async (req, res) => {
   }
 };
 
-/**
- * @desc    Verify Razorpay payment signature
- * @route   POST /api/payment/verify
- * @access  Private
- */
+
 const verifyPayment = async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
@@ -73,7 +65,7 @@ const verifyPayment = async (req, res) => {
       return res.status(400).json({ message: 'Missing payment details' });
     }
 
-    // Verify signature
+
     const body = razorpay_order_id + '|' + razorpay_payment_id;
     const expectedSignature = crypto
       .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
@@ -83,7 +75,7 @@ const verifyPayment = async (req, res) => {
     const isSignatureValid = expectedSignature === razorpay_signature;
 
     if (isSignatureValid) {
-      // Update payment record in database
+
       await Payment.findOneAndUpdate(
         { orderId: razorpay_order_id },
         {
@@ -99,7 +91,7 @@ const verifyPayment = async (req, res) => {
         message: 'Payment verified successfully',
       });
     } else {
-      // Mark as failed
+
       await Payment.findOneAndUpdate(
         { orderId: razorpay_order_id },
         { status: 'Failed' }

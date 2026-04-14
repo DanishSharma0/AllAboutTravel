@@ -35,7 +35,7 @@ export default function Rentals() {
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-900 mb-8">Rentals</h1>
 
-          {/* Search Bar */}
+          {}
           <form onSubmit={handleSearch} className="mb-12">
             <div className="flex gap-2">
               <input
@@ -55,7 +55,7 @@ export default function Rentals() {
             </div>
           </form>
 
-          {/* Rentals Grid */}
+          {}
           {loading ? (
             <div className="text-center text-gray-600">Loading rentals...</div>
           ) : rentals.length === 0 ? (

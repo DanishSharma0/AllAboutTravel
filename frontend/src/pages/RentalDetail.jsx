@@ -17,14 +17,14 @@ export default function RentalDetail() {
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
 
-  // Booking State
+
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [pickupLocation, setPickupLocation] = useState('');
   const [dropLocation, setDropLocation] = useState('');
   const [numDays, setNumDays] = useState(0);
 
-  // Payment Modal State
+
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [bookingData, setBookingData] = useState(null);
 
@@ -77,7 +77,7 @@ export default function RentalDetail() {
         dropLocation,
       });
       
-      // Redirect to checkout with booking info
+
       navigate('/checkout', { 
         state: { 
           booking: response.data.booking, 
@@ -156,7 +156,7 @@ export default function RentalDetail() {
             <ReviewSection entityType="Rental" entityId={id} />
           </div>
 
-          {/* Booking Widget Sidebar */}
+          {}
           <div>
             <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 sticky top-32">
               <div className="mb-6 pb-6 border-b border-slate-100 flex items-end gap-2">
@@ -166,7 +166,7 @@ export default function RentalDetail() {
 
               <div className="space-y-5 mb-8">
                 
-                {/* Dates Section */}
+                {}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 focus-within:border-slate-400 focus-within:ring-1 focus-within:ring-slate-400 transition">
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Pickup Date</label>

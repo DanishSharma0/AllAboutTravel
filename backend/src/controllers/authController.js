@@ -1,13 +1,13 @@
 const User = require('../models/User');
 const { generateToken } = require('../utils/tokenUtils');
 
-// User Registration
+
 const register = async (req, res) => {
   try {
     console.log('Registration request received:', req.body);
     const { name, email, password, phone, role, businessDetails } = req.body;
 
-    // Validation
+
     if (!name || !email || !password || !phone) {
       console.log('Validation failed: missing fields');
       return res.status(400).json({ message: 'All fields are required' });
@@ -17,7 +17,7 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'Business Name is required for Providers' });
     }
 
-    // Check if user exists
+
     const existingUser = await User.findOne({ email: email.toLowerCase() });
 
     if (existingUser) {
@@ -25,7 +25,7 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'Email already registered' });
     }
 
-    // Create new user
+
     const user = new User({
       name,
       email: email.toLowerCase(),
@@ -35,7 +35,7 @@ const register = async (req, res) => {
       businessDetails: role === 'PROVIDER' ? businessDetails : undefined,
     });
 
-    // Save user (password will be hashed by pre-save middleware)
+
     console.log('Saving user to database...');
     await user.save();
     console.log('User saved successfully:', user._id);
@@ -67,7 +67,7 @@ const register = async (req, res) => {
   }
 };
 
-// User Login
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -76,14 +76,14 @@ const login = async (req, res) => {
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    // Find user
+
     const user = await User.findOne({ email: email.toLowerCase() });
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Compare password
+
     const isPasswordValid = await user.matchPassword(password);
 
     if (!isPasswordValid) {
@@ -112,7 +112,7 @@ const login = async (req, res) => {
   }
 };
 
-// Get User Profile
+
 const getProfile = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -130,7 +130,7 @@ const getProfile = async (req, res) => {
   }
 };
 
-// Update User Profile
+
 const updateProfile = async (req, res) => {
   try {
     const userId = req.user.userId;

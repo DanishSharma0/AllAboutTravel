@@ -45,13 +45,13 @@ const userSchema = new mongoose.Schema(
     wishlist: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Listing', // Future unified listing ref
+        ref: 'Listing',
       },
     ],
     bookingHistory: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'RentalBooking', // Will generalize later
+        ref: 'RentalBooking',
       },
     ],
     paymentDetails: {
@@ -65,7 +65,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Hash password before saving
+
 userSchema.pre('save', async function () {
   if (!this.isModified('password')) {
     return;
@@ -75,7 +75,7 @@ userSchema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Method to compare passwords
+
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

@@ -22,7 +22,7 @@ export default function Checkout() {
   const handlePayment = async () => {
     setIsProcessing(true);
     try {
-      // 1. Create order on backend
+
       const { data: orderData } = await paymentAPI.createOrder({
         amount: booking.totalPrice,
         receipt: `receipt_${booking._id}`
@@ -32,7 +32,7 @@ export default function Checkout() {
         throw new Error('Order creation failed');
       }
 
-      // 2. Initialize Razorpay Checkout
+
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_ScXDjnESw0yCBK',
         amount: orderData.amount,
@@ -42,7 +42,7 @@ export default function Checkout() {
         order_id: orderData.order_id,
         handler: async function (response) {
           try {
-            // 3. Verify payment on backend
+
             const verifyRes = await paymentAPI.verifyPayment({
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
@@ -50,11 +50,11 @@ export default function Checkout() {
             });
 
             if (verifyRes.data.success) {
-              // 4. Update booking status to 'Paid'
+
               try {
                 await bookingAPI.payBooking(type, booking._id);
                 setIsSuccess(true);
-                // Redirect will happen after a short delay via the success UI or immediate navigate
+
                 setTimeout(() => {
                   navigate('/payment/success', { 
                     state: { 
@@ -65,8 +65,8 @@ export default function Checkout() {
                 }, 3000);
               } catch (updateErr) {
                 console.error('Booking update error:', updateErr);
-                // Even if booking update fails, payment was verified. 
-                // We should probably still show success but maybe warn or log it.
+
+
                 setIsSuccess(true);
                 navigate('/payment/success', { 
                   state: { 
@@ -85,7 +85,7 @@ export default function Checkout() {
           }
         },
         prefill: {
-          name: '', // Will be filled by Razorpay UI usually or we can pass if we have it
+          name: '',
           email: '',
           contact: '',
         },
@@ -108,7 +108,7 @@ export default function Checkout() {
     }
   };
 
-  // Dynamically load Razorpay script
+
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -169,7 +169,7 @@ export default function Checkout() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           
-          {/* Order Summary */}
+          {}
           <div className="space-y-8">
             <h1 className="text-4xl font-black text-slate-900 tracking-tight">Complete your booking</h1>
             
@@ -208,7 +208,7 @@ export default function Checkout() {
             </div>
           </div>
 
-          {/* Payment Methods */}
+          {}
           <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-lg sticky top-32">
             <h2 className="text-2xl font-black text-slate-900 mb-8">Payment Methods</h2>
             
@@ -248,7 +248,7 @@ export default function Checkout() {
             </button>
             
             <div className="mt-6 flex items-center justify-center gap-6 opacity-30 grayscale">
-               {/* Mock payment logos */}
+               {}
                <div className="text-[10px] font-black tracking-tighter">RAZORPAY</div>
                <div className="text-[10px] font-black tracking-tighter">STRIPE</div>
                <div className="text-[10px] font-black tracking-tighter">UPI</div>

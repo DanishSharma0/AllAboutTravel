@@ -5,7 +5,7 @@ const User = require('../models/User');
 const Notification = require('../models/Notification');
 const City = require('../models/City');
 
-// Get all rentals (with optional city search)
+
 const getAllRentals = async (req, res) => {
   try {
     const { city } = req.query;
@@ -26,7 +26,7 @@ const getAllRentals = async (req, res) => {
   }
 };
 
-// Get rentals by city
+
 const getRentalsByCity = async (req, res) => {
   try {
     const { cityId } = req.params;
@@ -43,7 +43,7 @@ const getRentalsByCity = async (req, res) => {
   }
 };
 
-// Get rental details
+
 const getRentalDetails = async (req, res) => {
   try {
     const { rentalId } = req.params;
@@ -61,7 +61,7 @@ const getRentalDetails = async (req, res) => {
   }
 };
 
-// Book rental (protected)
+
 const bookRental = async (req, res) => {
   try {
     const { rentalId, startDate, endDate, pickupLocation, dropLocation } = req.body;
@@ -71,20 +71,20 @@ const bookRental = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Get rental price
+
     const rental = await Rental.findById(rentalId);
 
     if (!rental) {
       return res.status(404).json({ message: 'Rental not found' });
     }
 
-    // Calculate total price
+
     const start = new Date(startDate);
     const end = new Date(endDate);
     const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
     const totalPrice = rental.pricePerDay * days;
 
-    // Create booking
+
     const booking = new RentalBooking({
       userId,
       rentalId,
@@ -98,10 +98,10 @@ const bookRental = async (req, res) => {
 
     await booking.save();
 
-    // Fetch provider details for payment
+
     const provider = await User.findById(rental.providerId).select('paymentDetails businessDetails name');
 
-    // Notify provider of new booking
+
     await Notification.create({
       recipient: rental.providerId,
       sender: userId,

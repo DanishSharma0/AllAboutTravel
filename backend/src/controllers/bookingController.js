@@ -7,12 +7,12 @@ const HostelBooking = require('../models/HostelBooking');
 const RentalBooking = require('../models/RentalBooking');
 
 
-// Get all bookings for the logged-in user
+
 const getMyBookings = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    // Fetch from all 3 collections concurrently
+
     const [hostelBookings, rentalBookings, guideBookings] = await Promise.all([
       HostelBooking.find({ userId }).populate('hostelId', 'name image address cityId'),
       RentalBooking.find({ userId }).populate('rentalId', 'modelName vehicleType image cityId'),
@@ -30,7 +30,7 @@ const getMyBookings = async (req, res) => {
   }
 };
 
-// Submit payment transaction ID for a booking (Customer action)
+
 const confirmPayment = async (req, res) => {
   try {
     const { bookingId, category, transactionId, paymentMethod } = req.body;
@@ -80,7 +80,7 @@ const confirmPayment = async (req, res) => {
     booking.paymentDate = new Date();
     await booking.save();
 
-    // Notify provider
+
     await Notification.create({
       recipient: providerId,
       sender: userId,

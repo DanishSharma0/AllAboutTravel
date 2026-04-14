@@ -103,7 +103,7 @@ export default function Register() {
           pointer-events: none;
         }
 
-        /* Navbar */
+        
         .auth-navbar {
           position: relative;
           z-index: 20;
@@ -162,7 +162,7 @@ export default function Register() {
         }
         .auth-nav-links .nav-btn:hover { background: rgba(255,255,255,0.25); }
 
-        /* Body */
+        
         .auth-body {
           position: relative;
           z-index: 10;
@@ -173,7 +173,7 @@ export default function Register() {
           padding: 20px 0 32px;
         }
 
-        /* Glass Card */
+        
         .glass-card {
           width: 440px;
           min-width: 320px;
@@ -207,7 +207,7 @@ export default function Register() {
           margin-bottom: 26px;
         }
 
-        /* Role Toggle */
+        
         .role-toggle {
           display: flex;
           background: rgba(0,0,0,0.2);
@@ -236,14 +236,14 @@ export default function Register() {
           box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        /* Two column row */
+        
         .fields-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 14px;
         }
 
-        /* Error */
+        
         .error-banner {
           background: rgba(239,68,68,0.18);
           border: 1px solid rgba(239,68,68,0.40);
@@ -259,7 +259,7 @@ export default function Register() {
         }
         @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-        /* Fields */
+        
         .field { margin-bottom: 16px; }
 
         .field label {
@@ -323,7 +323,7 @@ export default function Register() {
         }
         .toggle-pw:hover { color: rgba(255,255,255,0.80); }
 
-        /* Submit */
+        
         .btn-submit {
           width: 100%;
           padding: 14px;
@@ -373,7 +373,7 @@ export default function Register() {
         }
         .alt-link a:hover { color: #7dd3fc; }
 
-        /* Quote Side */
+        
         .quote-side {
           flex: 1;
           padding: clamp(32px,6vw,80px);
@@ -413,7 +413,7 @@ export default function Register() {
           max-width: 360px;
         }
 
-        /* Perks list */
+        
         .perks { list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
         .perks li {
           display: flex;
@@ -429,7 +429,7 @@ export default function Register() {
           flex-shrink: 0;
         }
 
-        /* Responsive */
+        
         @media (max-width: 768px) {
           .auth-navbar { padding: 16px 20px; }
           .auth-nav-links a:not(.nav-btn) { display: none; }
@@ -444,7 +444,7 @@ export default function Register() {
 
       <div className="auth-page">
 
-        {/* ── Transparent Navbar ── */}
+        {}
         <nav className="auth-navbar">
           <Link to="/" className="auth-nav-logo">
             <span className="logo-icon">🏔️</span>
@@ -458,10 +458,10 @@ export default function Register() {
           </div>
         </nav>
 
-        {/* ── Main Body ── */}
+        {}
         <div className="auth-body">
 
-          {/* Glass Card */}
+          {}
           <div className="glass-card">
             <h1 className="card-title">Create Account</h1>
             <p className="card-subtitle">Join thousands of travellers exploring the world</p>
@@ -490,7 +490,7 @@ export default function Register() {
             )}
 
             <form onSubmit={handleSubmit}>
-              {/* Name + Phone in a row */}
+              {}
               <div className="fields-row">
                 <div className="field">
                   <label htmlFor="reg-name">{formData.role === 'PROVIDER' ? 'Owner Name' : 'Full Name'}</label>
@@ -531,7 +531,7 @@ export default function Register() {
                 </div>
               </div>
 
-              {/* Email */}
+              {}
               <div className="field">
                 <label htmlFor="reg-email">Email Address</label>
                 <div className="input-wrap">
@@ -552,7 +552,7 @@ export default function Register() {
                 </div>
               </div>
 
-              {/* Password + Confirm row */}
+              {}
               <div className="fields-row">
                 <div className="field">
                   <label htmlFor="reg-password">Password</label>
@@ -623,7 +623,7 @@ export default function Register() {
                 </div>
               </div>
 
-              {/* Dynamic Provider Fields */}
+              {}
               {formData.role === 'PROVIDER' && (
                 <>
                   <div style={{borderTop: '1px dashed rgba(255,255,255,0.2)', margin: '20px 0'}}></div>
@@ -683,7 +683,7 @@ export default function Register() {
             </form>
           </div>
 
-          {/* Quote Side */}
+          {}
           <div className="quote-side">
             <p className="quote-text">
               {formData.role === 'PROVIDER' ? 'GROW YOUR TRAVEL BUSINESS WITH US.' : 'YOUR NEXT ADVENTURE STARTS HERE.'}

@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-/**
- * Diagnostics script to verify registration setup
- */
+
 
 const axios = require('axios');
 const http = require('http');

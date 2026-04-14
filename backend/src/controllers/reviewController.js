@@ -1,18 +1,18 @@
 const Review = require('../models/Review');
 
-// Create a new review
+
 exports.createReview = async (req, res) => {
   try {
     const { entityType, entityId, rating, comment } = req.body;
     
-    // Ensure rating is valid
+
     if (rating < 1 || rating > 5) {
       return res.status(400).json({ message: 'Rating must be between 1 and 5.' });
     }
 
-    // Creating the review
+
     const review = new Review({
-      user: req.user.id, // Assuming auth middleware sets req.user
+      user: req.user.id,
       entityType,
       entityId,
       rating,
@@ -21,7 +21,7 @@ exports.createReview = async (req, res) => {
 
     await review.save();
     
-    // Populate the user reference before returning to send back name/avatar immediately
+
     await review.populate('user', 'firstName lastName avatarName');
 
     res.status(201).json({ message: 'Review successfully added.', review });
@@ -34,14 +34,14 @@ exports.createReview = async (req, res) => {
   }
 };
 
-// Get reviews for a specific entity
+
 exports.getReviewsByEntity = async (req, res) => {
   try {
     const { entityType, entityId } = req.params;
 
     const reviews = await Review.find({ entityType, entityId })
       .populate('user', 'firstName lastName avatarName')
-      .sort({ createdAt: -1 }); // Newest first
+      .sort({ createdAt: -1 });
     
     res.json(reviews);
   } catch (error) {

@@ -35,7 +35,7 @@ export default function TourGuides() {
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-900 mb-8">Tour Guides</h1>
 
-          {/* Search Bar */}
+          {}
           <form onSubmit={handleSearch} className="mb-12">
             <div className="flex gap-2">
               <input
@@ -55,7 +55,7 @@ export default function TourGuides() {
             </div>
           </form>
 
-          {/* Guides Grid */}
+          {}
           {loading ? (
             <div className="text-center text-gray-600">Loading guides...</div>
           ) : guides.length === 0 ? (

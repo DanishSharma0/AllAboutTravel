@@ -7,7 +7,7 @@ const GuideBooking = require('../models/GuideBooking');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 
-// Add a new listing (Hostel, Rental, or Tour)
+
 const addListing = async (req, res) => {
   try {
     const { category, ...listingData } = req.body;
@@ -50,12 +50,12 @@ const addListing = async (req, res) => {
   }
 };
 
-// Get all listings for the logged-in provider
+
 const getMyListings = async (req, res) => {
   try {
     const providerId = req.user._id;
 
-    // Fetch all 3 categories of listings belonging to this provider
+
     const hostels = await Hostel.find({ providerId });
     const rentals = await Rental.find({ providerId });
     const tours = await TourGuide.find({ providerId });
@@ -75,7 +75,7 @@ const getMyListings = async (req, res) => {
   }
 };
 
-// Update provider payment details
+
 const updatePaymentDetails = async (req, res) => {
   try {
     const { upiId, bankName, accountNumber, accountHolderName, ifscCode } = req.body;
@@ -116,12 +116,12 @@ const updatePaymentDetails = async (req, res) => {
   }
 };
 
-// Get all bookings for the listings owned by this provider
+
 const getProviderBookings = async (req, res) => {
   try {
     const providerId = req.user._id;
 
-    // 1. Get IDs of all listings owned by this provider
+
     const [hostels, rentals, tours] = await Promise.all([
       Hostel.find({ providerId }).select('_id'),
       Rental.find({ providerId }).select('_id'),
@@ -132,7 +132,7 @@ const getProviderBookings = async (req, res) => {
     const rentalIds = rentals.map((r) => r._id);
     const tourIds = tours.map((t) => t._id);
 
-    // 2. Fetch bookings for these listings
+
     const [hostelBookings, rentalBookings, guideBookings] = await Promise.all([
       HostelBooking.find({ hostelId: { $in: hostelIds } }).populate('userId', 'name email phone'),
       RentalBooking.find({ rentalId: { $in: rentalIds } }).populate('userId', 'name email phone'),
@@ -150,10 +150,10 @@ const getProviderBookings = async (req, res) => {
   }
 };
 
-// Verify/Confirm a payment (Provider action)
+
 const verifyPayment = async (req, res) => {
   try {
-    const { bookingId, category, status } = req.body; // status: 'Paid' or 'Unpaid'
+    const { bookingId, category, status } = req.body;
 
     let booking;
     switch (category.toLowerCase()) {
@@ -180,7 +180,7 @@ const verifyPayment = async (req, res) => {
     }
     await booking.save();
 
-    // Create notification for customer
+
     await Notification.create({
       recipient: booking.userId,
       message: `Your payment for your ${category} booking has been verified!`,

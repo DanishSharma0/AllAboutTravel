@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { directionService } from '../services';
 import { MapPin, Navigation } from 'lucide-react';
 
-// Fix for default markers
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -20,7 +20,7 @@ export default function Map() {
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Get user's current location
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -32,12 +32,12 @@ export default function Map() {
         },
         (error) => {
           console.error('Error getting location:', error);
-          // Default to Delhi
+
           setUserLocation({ lat: 28.7041, lng: 77.1025 });
         }
       );
     } else {
-      // Default to Delhi
+
       setUserLocation({ lat: 28.7041, lng: 77.1025 });
     }
   }, []);
@@ -50,8 +50,8 @@ export default function Map() {
 
     try {
       setIsLoading(true);
-      // For demo purposes, creating a simple route
-      // In production, you'd call: await directionService.getDirections(userLocation, destination)
+
+
       const mockRoute = {
         routes: [[
           [userLocation.lng, userLocation.lat],
@@ -75,8 +75,8 @@ export default function Map() {
 
     try {
       setIsLoading(true);
-      // For demo: call directionService.getNearbyAttractions(userLocation)
-      // This would return nearby tourist places, restaurants, etc.
+
+
       setNearbyPlaces([
         { id: 1, name: 'Museum', lat: userLocation.lat + 0.01, lng: userLocation.lng + 0.01 },
         { id: 2, name: 'Temple', lat: userLocation.lat - 0.01, lng: userLocation.lng + 0.01 },
@@ -101,7 +101,7 @@ export default function Map() {
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
-        {/* Controls */}
+        {}
         <div className="lg:col-span-1 space-y-4">
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-lg font-bold text-gray-800 mb-4">Navigation</h2>
@@ -154,7 +154,7 @@ export default function Map() {
           </div>
         </div>
 
-        {/* Map */}
+        {}
         <div className="lg:col-span-3 bg-white rounded-lg shadow-lg overflow-hidden">
           <MapContainer 
             center={[userLocation.lat, userLocation.lng]} 
@@ -166,17 +166,17 @@ export default function Map() {
               attribution='&copy; OpenStreetMap contributors'
             />
             
-            {/* User Location */}
+            {}
             <Marker position={[userLocation.lat, userLocation.lng]}>
               <Popup>Your Location</Popup>
             </Marker>
 
-            {/* Route */}
+            {}
             {route && (
               <Polyline positions={route} color="blue" weight={3} />
             )}
 
-            {/* Nearby Places */}
+            {}
             {nearbyPlaces.map(place => (
               <Marker key={place.id} position={[place.lat, place.lng]}>
                 <Popup>{place.name}</Popup>

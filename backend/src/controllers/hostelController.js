@@ -4,7 +4,7 @@ const City = require('../models/City');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 
-// Get all hostels (with optional city search)
+
 const getAllHostels = async (req, res) => {
   try {
     const { city } = req.query;
@@ -26,7 +26,7 @@ const getAllHostels = async (req, res) => {
 };
 
 
-// Get hostels by city
+
 const getHostelsByCity = async (req, res) => {
   try {
     const { cityId } = req.params;
@@ -40,7 +40,7 @@ const getHostelsByCity = async (req, res) => {
   }
 };
 
-// Get hostel details
+
 const getHostelDetails = async (req, res) => {
   try {
     const { hostelId } = req.params;
@@ -58,7 +58,7 @@ const getHostelDetails = async (req, res) => {
   }
 };
 
-// Book hostel (protected)
+
 const bookHostel = async (req, res) => {
   try {
     const { hostelId, checkIn, checkOut, roomType, numberOfGuests } = req.body;
@@ -68,20 +68,20 @@ const bookHostel = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Get hostel price
+
     const hostel = await Hostel.findById(hostelId);
 
     if (!hostel) {
       return res.status(404).json({ message: 'Hostel not found' });
     }
 
-    // Calculate total price
+
     const checkInDate = new Date(checkIn);
     const checkOutDate = new Date(checkOut);
     const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
     const totalPrice = hostel.pricePerNight * nights;
 
-    // Create booking
+
     const booking = new HostelBooking({
       userId,
       hostelId,
@@ -95,7 +95,7 @@ const bookHostel = async (req, res) => {
 
     await booking.save();
 
-    // Fetch provider details for payment
+
     const provider = await User.findById(hostel.providerId).select('paymentDetails businessDetails');
 
     res.status(201).json({

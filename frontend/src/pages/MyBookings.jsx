@@ -100,7 +100,7 @@ export default function MyBookings() {
         ) : (
           <div className="space-y-16">
             
-            {/* Hostels Section */}
+            {}
             {bookings.hostels.length > 0 && (
               <section>
                 <div className="flex items-center gap-3 mb-8">
@@ -155,7 +155,7 @@ export default function MyBookings() {
               </section>
             )}
 
-            {/* Rentals Section */}
+            {}
             {bookings.rentals.length > 0 && (
               <section>
                 <div className="flex items-center gap-3 mb-8">
@@ -203,7 +203,7 @@ export default function MyBookings() {
               </section>
             )}
 
-            {/* Tours Section */}
+            {}
             {bookings.tours.length > 0 && (
               <section>
                 <div className="flex items-center gap-3 mb-8">

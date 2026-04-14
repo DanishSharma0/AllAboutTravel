@@ -29,7 +29,7 @@ export default function PlaceDetail() {
 
   const handleFavorite = () => {
     setIsFavorited(!isFavorited);
-    // TODO: Save to backend
+
   };
 
   if (loading) return <div className="min-h-screen">Loading...</div>;
@@ -41,7 +41,7 @@ export default function PlaceDetail() {
 
       <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          {/* Back Button */}
+          {}
           <button
             onClick={() => navigate('/places')}
             className="flex items-center gap-2 text-indigo-600 mb-6 hover:text-indigo-700"
@@ -50,15 +50,15 @@ export default function PlaceDetail() {
             Back to Places
           </button>
 
-          {/* Main Content */}
+          {}
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            {/* Image */}
+            {}
             {place.image && (
               <img src={place.image} alt={place.name} className="w-full h-96 object-cover" />
             )}
 
             <div className="p-8">
-              {/* Title with Favorite */}
+              {}
               <div className="flex justify-between items-start mb-4">
                 <h1 className="text-4xl font-bold text-gray-900">{place.name}</h1>
                 <button
@@ -72,7 +72,7 @@ export default function PlaceDetail() {
                 </button>
               </div>
 
-              {/* Location & Distance */}
+              {}
               <div className="flex gap-6 mb-6">
                 <div className="flex items-center gap-2 text-gray-600">
                   <MapPin size={24} />
@@ -86,17 +86,17 @@ export default function PlaceDetail() {
                 )}
               </div>
 
-              {/* Category */}
+              {}
               {place.category && (
                 <span className="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold px-4 py-2 rounded-full mb-6">
                   {place.category}
                 </span>
               )}
 
-              {/* Description */}
+              {}
               <p className="text-gray-600 text-lg mb-8">{place.description}</p>
 
-              {/* Details */}
+              {}
               {(place.timings || place.entry_fee || place.best_time) && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                   {place.timings && (
@@ -120,7 +120,7 @@ export default function PlaceDetail() {
                 </div>
               )}
 
-              {/* Attractions Nearby */}
+              {}
               {place.nearby_attractions && (
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Nearby Attractions</h3>
@@ -135,7 +135,7 @@ export default function PlaceDetail() {
                 </div>
               )}
 
-              {/* Activities */}
+              {}
               {place.activities && (
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Activities</h3>
@@ -152,7 +152,7 @@ export default function PlaceDetail() {
                 </div>
               )}
 
-              {/* CTA */}
+              {}
               <button className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition text-lg">
                 Plan My Visit
               </button>
