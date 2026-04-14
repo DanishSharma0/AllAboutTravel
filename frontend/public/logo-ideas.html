@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllAboutTravel Logo Concepts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background: #faf9f6; 
+            color: #2c3e50; 
+            padding: 40px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 50px; 
+            align-items: center; 
+        }
+        .intro {
+            text-align: center;
+            max-width: 600px;
+        }
+        .intro h1 {
+            font-family: 'Cormorant Garamond', serif;
+            color: #1a252f;
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+        }
+        .intro p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+        .logo-card { 
+            background: white; 
+            padding: 60px 40px; 
+            border-radius: 24px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03); 
+            text-align: center; 
+            width: 100%; 
+            max-width: 700px; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        .logo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.06); 
+        }
+        .logo-card h2 { 
+            margin-top: 0; 
+            color: #bdc3c7; 
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 50px; 
+            padding-bottom: 20px; 
+        }
+        svg { 
+            max-width: 100%; 
+            height: auto; 
+        }
+    </style>
+</head>
+<body>
+    <div class="intro">
+        <h1>Aesthetic Globe & Mountain Concepts</h1>
+        <p>I completely redesigned the vector logos based on your feedback. These feature clean, aesthetic styling, mountain peaks, and globe elements. Still 100% SVG ready for React!</p>
+    </div>
+    
+    <!-- CONCEPT 4: Clean Geometric -->
+    <div class="logo-card">
+        <h2>Concept 1: Modern Horizon</h2>
+        <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+            <!-- Globe base -->
+            <circle cx="65" cy="65" r="35" fill="none" stroke="#2c3e50" stroke-width="2.5" />
+            <path d="M 30,65 Q 65,95 100,65 Q 65,35 30,65" fill="none" stroke="#2c3e50" stroke-width="1.5" opacity="0.4" />
+            <path d="M 65,30 Q 95,65 65,100 Q 35,65 65,30" fill="none" stroke="#2c3e50" stroke-width="1.5" opacity="0.4" />
+            
+            <!-- Sun / Accent -->
+            <circle cx="75" cy="45" r="14" fill="#e76f51" opacity="0.8" />
+
+            <!-- Mountains cutting through -->
+            <path d="M 25,75 L 50,45 L 65,60 L 85,35 L 108,65 Z" fill="#faf9f6" />
+            <path d="M 25,75 L 50,45 L 65,60 L 85,35 L 108,65" fill="none" stroke="#2c3e50" stroke-width="3" stroke-linejoin="round" />
+            
+            <!-- Base line -->
+            <line x1="20" y1="75" x2="110" y2="75" stroke="#2c3e50" stroke-width="3" stroke-linecap="round" />
+
+            <!-- Text -->
+            <text x="140" y="78" font-family="'Outfit', sans-serif" font-weight="700" font-size="44" fill="#2c3e50" letter-spacing="-1">AllAbout<tspan font-weight="300" fill="#e76f51">Travel</tspan></text>
+        </svg>
+    </div>
+
+    <!-- CONCEPT 5: Minimal Continuous Line -->
+    <div class="logo-card">
+        <h2>Concept 2: Nordic Minimalist</h2>
+        <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+            <!-- Circle / Globe background -->
+            <circle cx="65" cy="60" r="32" fill="#e9ecef" />
+            
+            <!-- Mountain & Globe Grid intersecting -->
+            <path d="M 33,60 A 32 32 0 0 0 97,60" fill="none" stroke="#34495e" stroke-width="2" /> <!-- Equator bottom -->
+            <path d="M 65,28 A 16 32 0 0 0 65,92" fill="none" stroke="#34495e" stroke-width="2" opacity="0.5" /> <!-- Meridian -->
+            <path d="M 65,28 A 16 32 0 0 1 65,92" fill="none" stroke="#34495e" stroke-width="2" opacity="0.5" /> <!-- Meridian -->
+
+            <!-- Majestic Peak -->
+            <path d="M 20,80 L 55,25 L 75,55 L 85,40 L 110,80 Z" fill="#faf9f6" />
+            <path d="M 20,80 L 55,25 L 75,55 L 85,40 L 110,80" fill="none" stroke="#2c3e50" stroke-width="2.5" stroke-linejoin="round" />
+            
+            <!-- Snow caps -->
+            <path d="M 43,45 L 50,55 L 57,45 L 55,25 Z" fill="#2c3e50" />
+
+            <!-- Text -->
+            <text x="135" y="75" font-family="'Cormorant Garamond', serif" font-weight="600" font-size="46" fill="#1a252f" letter-spacing="1">all about <tspan font-style="italic" fill="#7f8c8d">travel</tspan></text>
+        </svg>
+    </div>
+
+    <!-- CONCEPT 6: Archway / Crest -->
+    <div class="logo-card">
+        <h2>Concept 3: The Explorer’s Crest</h2>
+        <svg viewBox="0 0 500 130" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <clipPath id="arch">
+                    <path d="M 30,65 A 35,35 0 0,1 100,65 L 100,100 A 10,10 0 0,1 90,110 L 40,110 A 10,10 0 0,1 30,100 Z" />
+                </clipPath>
+            </defs>
+            
+            <!-- Arch Background -->
+            <path d="M 30,65 A 35,35 0 0,1 100,65 L 100,100 A 10,10 0 0,1 90,110 L 40,110 A 10,10 0 0,1 30,100 Z" fill="#2c3e50" />
+            
+            <!-- Sun / Sky inside arch -->
+            <circle cx="65" cy="55" r="18" fill="#e9c46a" clip-path="url(#arch)" />
+            
+            <!-- Mountains inside arch -->
+            <path d="M 20,90 L 50,50 L 75,80 L 90,65 L 115,90 L 115,120 L 20,120 Z" fill="#2a9d8f" clip-path="url(#arch)" />
+            <path d="M 50,50 L 35,70 L 55,75 Z" fill="#e9f5f9" opacity="0.8" clip-path="url(#arch)" /> <!-- snowcap -->
+
+            <!-- Globe grid at the bottom inside arch -->
+            <path d="M 30,90 Q 65,120 100,90" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" clip-path="url(#arch)" />
+            <path d="M 30,100 Q 65,130 100,100" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" clip-path="url(#arch)" />
+            <path d="M 50,85 L 50,120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" clip-path="url(#arch)" />
+            <path d="M 80,85 L 80,120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" clip-path="url(#arch)" />
+
+            <!-- Frame outline -->
+            <path d="M 30,65 A 35,35 0 0,1 100,65 L 100,100 A 10,10 0 0,1 90,110 L 40,110 A 10,10 0 0,1 30,100 Z" fill="none" stroke="#2c3e50" stroke-width="2" />
+
+            <!-- Text -->
+            <text x="135" y="70" font-family="'Outfit', sans-serif" font-weight="400" font-size="40" fill="#2c3e50" letter-spacing="3">ALL ABOUT</text>
+            <text x="138" y="98" font-family="'Outfit', sans-serif" font-weight="700" font-size="20" fill="#2a9d8f" letter-spacing="8">TRAVEL.</text>
+        </svg>
+    </div>
+
+</body>
+</html>

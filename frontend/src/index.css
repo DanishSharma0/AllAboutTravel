@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply bg-sand-50 text-slate-800 antialiased selection:bg-accent-500 selection:text-white;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-sand-200;
+  }
+  .glass-card {
+    @apply bg-white/60 backdrop-blur-sm border border-sand-200 shadow-xl;
+  }
+}

@@ -1,0 +1,74 @@
+import { useState, useEffect } from 'react';
+import HostelCard from '../components/HostelCard';
+import { hostelsAPI } from '../services/api';
+import { Search } from 'lucide-react';
+
+export default function Hostels() {
+  const [hostels, setHostels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchCity, setSearchCity] = useState('');
+
+  useEffect(() => {
+    fetchHostels();
+  }, []);
+
+  const fetchHostels = async () => {
+    try {
+      const response = await hostelsAPI.getAll({ city: searchCity });
+      setHostels(response.data || []);
+    } catch (error) {
+      console.error('Error fetching hostels:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    fetchHostels();
+  };
+
+  return (
+    <div className="py-8 px-4 sm:px-6 lg:px-8">
+
+      <div className="max-w-7xl mx-auto pb-12">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">Find Hostels</h1>
+
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="mb-12">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={searchCity}
+                onChange={(e) => setSearchCity(e.target.value)}
+                placeholder="Search by city..."
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600"
+              />
+              <button
+                type="submit"
+                className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition flex items-center gap-2"
+              >
+                <Search size={20} />
+                Search
+              </button>
+            </div>
+          </form>
+
+          {/* Hostels Grid */}
+          {loading ? (
+            <div className="text-center text-gray-600">Loading hostels...</div>
+          ) : hostels.length === 0 ? (
+            <div className="text-center text-gray-600">No hostels found</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {hostels.map((hostel) => (
+                <HostelCard key={hostel._id} hostel={hostel} />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

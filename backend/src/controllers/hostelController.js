@@ -1,0 +1,125 @@
+const HostelBooking = require('../models/HostelBooking');
+const Hostel = require('../models/Hostel');
+const City = require('../models/City');
+const User = require('../models/User');
+const Notification = require('../models/Notification');
+
+// Get all hostels (with optional city search)
+const getAllHostels = async (req, res) => {
+  try {
+    const { city } = req.query;
+    let query = {};
+    if (city) {
+      const cityDoc = await City.findOne({ name: { $regex: new RegExp(city, 'i') } });
+      if (cityDoc) {
+        query.cityId = cityDoc._id;
+      } else {
+        return res.json([]);
+      }
+    }
+    const hostels = await Hostel.find(query).populate('cityId', 'name state');
+    res.json(hostels);
+  } catch (error) {
+    console.error('Get all hostels error:', error);
+    res.status(500).json({ message: 'Failed to fetch hostels', error: error.message });
+  }
+};
+
+
+// Get hostels by city
+const getHostelsByCity = async (req, res) => {
+  try {
+    const { cityId } = req.params;
+
+    const hostels = await Hostel.find({ cityId }).populate('cityId', 'name state');
+
+    res.json(hostels);
+  } catch (error) {
+    console.error('Get hostels error:', error);
+    res.status(500).json({ message: 'Failed to fetch hostels', error: error.message });
+  }
+};
+
+// Get hostel details
+const getHostelDetails = async (req, res) => {
+  try {
+    const { hostelId } = req.params;
+
+    const hostel = await Hostel.findById(hostelId).populate('cityId', 'name state');
+
+    if (!hostel) {
+      return res.status(404).json({ message: 'Hostel not found' });
+    }
+
+    res.json(hostel);
+  } catch (error) {
+    console.error('Get hostel details error:', error);
+    res.status(500).json({ message: 'Failed to fetch hostel details', error: error.message });
+  }
+};
+
+// Book hostel (protected)
+const bookHostel = async (req, res) => {
+  try {
+    const { hostelId, checkIn, checkOut, roomType, numberOfGuests } = req.body;
+    const userId = req.user.userId;
+
+    if (!hostelId || !checkIn || !checkOut || !roomType || !numberOfGuests) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    // Get hostel price
+    const hostel = await Hostel.findById(hostelId);
+
+    if (!hostel) {
+      return res.status(404).json({ message: 'Hostel not found' });
+    }
+
+    // Calculate total price
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+    const totalPrice = hostel.pricePerNight * nights;
+
+    // Create booking
+    const booking = new HostelBooking({
+      userId,
+      hostelId,
+      checkIn,
+      checkOut,
+      roomType,
+      numberOfGuests,
+      totalPrice,
+      status: 'Pending',
+    });
+
+    await booking.save();
+
+    // Fetch provider details for payment
+    const provider = await User.findById(hostel.providerId).select('paymentDetails businessDetails');
+
+    res.status(201).json({
+      message: 'Hostel booked successfully',
+      booking: {
+        id: booking._id,
+        hostelId,
+        totalPrice,
+        status: 'Pending',
+        providerDetails: {
+          upiId: provider?.paymentDetails?.upiId,
+          businessName: provider?.businessDetails?.businessName || provider?.name,
+        }
+      },
+    });
+  } catch (error) {
+    console.error('Book hostel error:', error);
+    res.status(500).json({ message: 'Booking failed', error: error.message });
+  }
+};
+
+module.exports = {
+  getAllHostels,
+  getHostelsByCity,
+  getHostelDetails,
+  bookHostel,
+};
