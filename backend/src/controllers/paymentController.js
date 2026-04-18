@@ -12,7 +12,9 @@ const razorpay = new Razorpay({
 const createOrder = async (req, res) => {
   try {
     const { amount, receipt } = req.body;
-    const userId = req.user.userId;
+    
+    require('fs').writeFileSync('debug.json', JSON.stringify(req.user));
+    const userId = req.user ? (req.user._id || req.user.id) : undefined;
 
     if (!amount) {
       return res.status(400).json({ message: 'Amount is required' });

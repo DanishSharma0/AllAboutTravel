@@ -62,7 +62,7 @@ const getHostelDetails = async (req, res) => {
 const bookHostel = async (req, res) => {
   try {
     const { hostelId, checkIn, checkOut, roomType, numberOfGuests } = req.body;
-    const userId = req.user.userId;
+    const userId = req.user._id;
 
     if (!hostelId || !checkIn || !checkOut || !roomType || !numberOfGuests) {
       return res.status(400).json({ message: 'All fields are required' });

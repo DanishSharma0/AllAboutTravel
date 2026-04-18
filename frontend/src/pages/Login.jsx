@@ -28,6 +28,11 @@ export default function Login() {
       setUser(response.data.user);
       navigate('/');
     } catch (err) {
+      console.error('Login error detail:', err);
+      if (err.response) {
+        console.error('Response data:', err.response.data);
+        console.error('Response status:', err.response.status);
+      }
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     } finally {
       setLoading(false);

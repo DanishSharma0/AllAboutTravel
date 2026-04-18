@@ -76,12 +76,20 @@ export default function RentalDetail() {
         pickupLocation,
         dropLocation,
       });
-      
+
+      // Merge populated rental data so Checkout can display name and pass cityData to Success
+      const rawBooking = response.data.booking;
+      const enrichedBooking = {
+        ...rawBooking,
+        _id: rawBooking._id || rawBooking.id,
+        rentalId: rental, // full populated object with cityId
+      };
 
       navigate('/checkout', { 
         state: { 
-          booking: response.data.booking, 
-          type: 'rental' 
+          booking: enrichedBooking, 
+          type: 'rental',
+          cityData: rental.cityId,
         } 
       });
     } catch (error) {

@@ -62,7 +62,7 @@ const getGuideDetails = async (req, res) => {
 const bookGuide = async (req, res) => {
   try {
     const { guideId, bookingDate, endDate, duration, numberOfPeople } = req.body;
-    const userId = req.user.userId;
+    const userId = req.user._id;
 
     if (!guideId || !bookingDate || !endDate || !duration || !numberOfPeople) {
       return res.status(400).json({ message: 'All fields are required' });

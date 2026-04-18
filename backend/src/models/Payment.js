@@ -15,6 +15,7 @@ const paymentSchema = new mongoose.Schema(
     paymentId: {
       type: String,
       unique: true,
+      sparse: true,
     },
     signature: {
       type: String,

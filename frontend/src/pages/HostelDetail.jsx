@@ -77,12 +77,20 @@ export default function HostelDetail() {
         roomType,
         numberOfGuests,
       });
-      
+
+      // Merge populated hostel data so Checkout can display name and pass cityData to Success
+      const rawBooking = response.data.booking;
+      const enrichedBooking = {
+        ...rawBooking,
+        _id: rawBooking._id || rawBooking.id,
+        hostelId: hostel, // full populated object with cityId
+      };
 
       navigate('/checkout', { 
         state: { 
-          booking: response.data.booking, 
-          type: 'hostel' 
+          booking: enrichedBooking, 
+          type: 'hostel',
+          cityData: hostel.cityId,
         } 
       });
     } catch (error) {

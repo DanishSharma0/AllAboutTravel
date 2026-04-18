@@ -8,7 +8,7 @@ import { CheckCircle, CreditCard, ShieldCheck, Loader2, ArrowLeft, Smartphone, B
 export default function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { booking, type } = location.state || {};
+  const { booking, type, cityData } = location.state || {};
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -59,7 +59,9 @@ export default function Checkout() {
                   navigate('/payment/success', { 
                     state: { 
                       paymentId: response.razorpay_payment_id,
-                      orderId: response.razorpay_order_id
+                      orderId: response.razorpay_order_id,
+                      cityData,
+                      bookingType: type,
                     } 
                   });
                 }, 3000);
@@ -72,7 +74,9 @@ export default function Checkout() {
                   state: { 
                     paymentId: response.razorpay_payment_id,
                     orderId: response.razorpay_order_id,
-                    warning: 'Payment verified but booking status update failed. Please contact support.'
+                    warning: 'Payment verified but booking status update failed. Please contact support.',
+                    cityData,
+                    bookingType: type,
                   } 
                 });
               }

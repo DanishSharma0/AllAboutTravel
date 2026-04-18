@@ -86,12 +86,20 @@ export default function TourGuideDetail() {
         duration,
         numberOfPeople,
       });
-      
+
+      // Merge populated guide data so Checkout can display name and pass cityData to Success
+      const rawBooking = response.data.booking;
+      const enrichedBooking = {
+        ...rawBooking,
+        _id: rawBooking._id || rawBooking.id,
+        guideId: guideState, // full populated object with cityId
+      };
 
       navigate('/checkout', { 
         state: { 
-          booking: response.data.booking, 
-          type: 'tour' 
+          booking: enrichedBooking, 
+          type: 'tour',
+          cityData: guideState.cityId,
         } 
       });
     } catch (error) {

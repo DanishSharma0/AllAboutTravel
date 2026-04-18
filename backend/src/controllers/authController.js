@@ -85,8 +85,10 @@ const login = async (req, res) => {
 
 
     const isPasswordValid = await user.matchPassword(password);
+    console.log(`Login attempt for ${email}: Password valid? ${isPasswordValid}`);
 
     if (!isPasswordValid) {
+      console.log(`Login failed: Password mismatch for ${email}`);
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 

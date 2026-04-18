@@ -65,7 +65,7 @@ const getRentalDetails = async (req, res) => {
 const bookRental = async (req, res) => {
   try {
     const { rentalId, startDate, endDate, pickupLocation, dropLocation } = req.body;
-    const userId = req.user.userId;
+    const userId = req.user._id;
 
     if (!rentalId || !startDate || !endDate || !pickupLocation || !dropLocation) {
       return res.status(400).json({ message: 'All fields are required' });
