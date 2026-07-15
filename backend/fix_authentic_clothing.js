@@ -1,0 +1,2 @@
+"const mongoose = require('mongoose');\nconst path = require('path');\nrequire('dotenv').config({ path: path.join(__dirname, '../.env') });\nconst connectDB = require('./config/database');\nconst Product = require('./models/Product');\nconst City = require
+<truncated 3491 bytes>

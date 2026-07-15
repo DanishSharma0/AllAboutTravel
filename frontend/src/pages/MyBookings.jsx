@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+
+
 import { bookingAPI } from '../services/api';
 import { AuthContext } from '../context/AuthContext';
 import { Loader2, Calendar, Building, Car, Map, ArrowRight, Clock, CheckCircle, XCircle } from 'lucide-react';
@@ -73,7 +73,7 @@ export default function MyBookings() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Header />
+      
 
       <div className="pt-12 pb-24 px-6 lg:px-12 max-w-7xl mx-auto">
         <div className="mb-12">
@@ -261,7 +261,7 @@ export default function MyBookings() {
         )}
 
       </div>
-      <Footer />
+      
     </div>
   );
 }

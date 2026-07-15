@@ -14,7 +14,7 @@ const rentalSchema = new mongoose.Schema(
     },
     vehicleType: {
       type: String,
-      enum: ['Bike', 'Scooty', 'Car'],
+      enum: ['Bike', 'Scooty', 'Scooter', 'Car', 'EV'],
       required: true,
     },
     modelName: {

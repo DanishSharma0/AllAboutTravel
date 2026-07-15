@@ -1,15 +1,18 @@
 const GuideBooking = require('../models/GuideBooking');
 const TourGuide = require('../models/TourGuide');
-
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 const City = require('../models/City');
 
-
+/**
+ * @desc Get all guides with advanced filtering
+ */
 const getAllGuides = async (req, res) => {
   try {
-    const { city } = req.query;
+    const { city, minPrice, maxPrice, experience, sortBy, specialty } = req.query;
     let query = {};
+
+    // City Filter
     if (city) {
       const cityDoc = await City.findOne({ name: { $regex: new RegExp(city, 'i') } });
       if (cityDoc) {
@@ -18,7 +21,39 @@ const getAllGuides = async (req, res) => {
         return res.json([]);
       }
     }
-    const guides = await TourGuide.find(query).populate('cityId', 'name state');
+
+    // Price Filter (chargesPerDay)
+    if (minPrice || maxPrice) {
+      query.chargesPerDay = {};
+      if (minPrice) query.chargesPerDay.$gte = Number(minPrice);
+      if (maxPrice) query.chargesPerDay.$lte = Number(maxPrice);
+    }
+
+    // Experience Filter
+    if (experience) {
+      query.experience = { $gte: Number(experience) };
+    }
+
+    // Specialty Filter (Local, Trekking, etc.)
+    if (specialty) {
+      query.specialty = { $regex: new RegExp(specialty, 'i') };
+    }
+
+    // Initialize Find Query
+    let findQuery = TourGuide.find(query).populate('cityId', 'name state');
+
+    // Sorting
+    if (sortBy === 'price_asc') {
+      findQuery = findQuery.sort({ chargesPerDay: 1 });
+    } else if (sortBy === 'price_desc') {
+      findQuery = findQuery.sort({ chargesPerDay: -1 });
+    } else if (sortBy === 'experience') {
+      findQuery = findQuery.sort({ experience: -1 });
+    } else {
+      findQuery = findQuery.sort({ createdAt: -1 });
+    }
+
+    const guides = await findQuery;
     res.json(guides);
   } catch (error) {
     console.error('Get all guides error:', error);
@@ -26,13 +61,10 @@ const getAllGuides = async (req, res) => {
   }
 };
 
-
 const getGuidesByCity = async (req, res) => {
   try {
     const { cityId } = req.params;
-
     const guides = await TourGuide.find({ cityId }).populate('cityId', 'name state');
-
     res.json(guides);
   } catch (error) {
     console.error('Get guides error:', error);
@@ -40,24 +72,19 @@ const getGuidesByCity = async (req, res) => {
   }
 };
 
-
 const getGuideDetails = async (req, res) => {
   try {
     const { guideId } = req.params;
-
     const guide = await TourGuide.findById(guideId).populate('cityId', 'name state');
-
     if (!guide) {
       return res.status(404).json({ message: 'Guide not found' });
     }
-
     res.json(guide);
   } catch (error) {
     console.error('Get guide details error:', error);
     res.status(500).json({ message: 'Failed to fetch guide details', error: error.message });
   }
 };
-
 
 const bookGuide = async (req, res) => {
   try {
@@ -69,25 +96,21 @@ const bookGuide = async (req, res) => {
     }
 
     const guide = await TourGuide.findById(guideId);
-
     if (!guide) {
       return res.status(404).json({ message: 'Guide not found' });
     }
 
-
     let totalPrice = 0;
     if (duration === 'Hourly') {
-      const hours = 1;
-      totalPrice = guide.chargesPerHour * hours * numberOfPeople;
+      totalPrice = guide.chargesPerHour * numberOfPeople;
     } else if (duration === 'Daily') {
       totalPrice = guide.chargesPerDay * numberOfPeople;
     } else if (duration === 'Multi-day') {
       const start = new Date(bookingDate);
       const end = new Date(endDate);
-      const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+      const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) || 1;
       totalPrice = guide.chargesPerDay * days * numberOfPeople;
     }
-
 
     const booking = new GuideBooking({
       userId,
@@ -102,9 +125,7 @@ const bookGuide = async (req, res) => {
 
     await booking.save();
 
-
     const provider = await User.findById(guide.providerId).select('paymentDetails businessDetails name');
-
 
     await Notification.create({
       recipient: guide.providerId,

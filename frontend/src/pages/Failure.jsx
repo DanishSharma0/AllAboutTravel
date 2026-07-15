@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { XCircle, Home, RefreshCw } from 'lucide-react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+
+
 
 const Failure = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Failure = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Header />
+      
       <main className="flex-1 flex items-center justify-center p-6 mt-16 mb-16">
         <div className="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden animate-in fade-in zoom-in duration-500">
           <div className="p-8 text-center">
@@ -46,7 +46,7 @@ const Failure = () => {
           </div>
         </div>
       </main>
-      <Footer />
+      
     </div>
   );
 };

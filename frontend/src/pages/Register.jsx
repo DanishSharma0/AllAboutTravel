@@ -20,7 +20,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { setUser, setToken } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +61,8 @@ export default function Register() {
       const response = await authAPI.register(payload);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      login(response.data.user);
+      setUser(response.data.user);
+      setToken(response.data.token);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');

@@ -1,73 +1,325 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import PlaceCard from '../components/PlaceCard';
 import { placesAPI } from '../services/api';
-import { Search } from 'lucide-react';
+import {
+  Search, MapPin, SlidersHorizontal, Star,
+  RotateCcw, TrendingUp, Home, ListFilter, 
+  CheckCircle2, Info, Compass, Landmark,
+  Mountain, Trees, Heart
+} from 'lucide-react';
+
+const CATEGORIES = ['Nature', 'Heritage', 'Religious', 'Adventure', 'Scenic'];
+const SORT_OPTIONS = [
+  { value: 'newest', label: 'Recently Added' },
+  { value: 'rating', label: 'Highest Rated' },
+  { value: 'popular', label: 'Most Popular' },
+];
+
+const QUICK_FILTERS = [
+  { label: 'All Places', icon: Home, value: null },
+  { label: 'Heritage', icon: Landmark, value: { category: 'Heritage' } },
+  { label: 'Nature', icon: Trees, value: { category: 'Nature' } },
+  { label: 'Scenic', icon: Mountain, value: { category: 'Scenic' } },
+  { label: 'Spiritual', icon: Compass, value: { category: 'Religious' } },
+];
+
+const DEFAULT_FILTERS = {
+  city: '',
+  category: '',
+  minRating: '',
+  sortBy: 'newest',
+};
 
 export default function Places() {
+  const [searchParams] = useSearchParams();
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({
+    ...DEFAULT_FILTERS,
+    city: searchParams.get('city') || '',
+  });
+  const [searchInput, setSearchInput] = useState(searchParams.get('city') || '');
+  const [activeQuick, setActiveQuick] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    fetchPlaces();
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const fetchPlaces = async () => {
+  const fetchPlaces = useCallback(async (activeFilters) => {
+    setLoading(true);
     try {
-      const response = await placesAPI.getAll({ search: searchQuery });
+      const params = {};
+      if (activeFilters.city) params.city = activeFilters.city;
+      if (activeFilters.category) params.category = activeFilters.category;
+      if (activeFilters.minRating) params.minRating = activeFilters.minRating;
+      if (activeFilters.sortBy !== 'newest') params.sortBy = activeFilters.sortBy;
+
+      const response = await placesAPI.getAll(params);
       setPlaces(response.data || []);
     } catch (error) {
       console.error('Error fetching places:', error);
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  useEffect(() => {
+    fetchPlaces(filters);
+  }, [filters, fetchPlaces]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setFilters(prev => ({ ...prev, city: searchInput }));
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    fetchPlaces();
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
   };
+
+  const handleSortChange = (e) => {
+    const newFilters = { ...filters, sortBy: e.target.value };
+    setFilters(newFilters);
+    fetchPlaces(newFilters);
+  };
+
+  const handleApplyFilters = () => fetchPlaces(filters);
+
+  const handleReset = () => {
+    const reset = { ...DEFAULT_FILTERS };
+    setFilters(reset);
+    setSearchInput('');
+    setActiveQuick(0);
+    fetchPlaces(reset);
+  };
+
+  const handleQuickFilter = (idx, qf) => {
+    setActiveQuick(idx);
+    if (qf.value === null) {
+      handleReset();
+      return;
+    }
+    const newFilters = { ...DEFAULT_FILTERS, ...qf.value };
+    setFilters(newFilters);
+    setSearchInput('');
+    fetchPlaces(newFilters);
+  };
+
+  const activeFilterCount = [
+    filters.category,
+    filters.minRating,
+  ].filter(Boolean).length;
 
   return (
-    <div className="py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#FBFAF9] flex flex-col font-sans selection:bg-accent-100 selection:text-accent-700">
 
-      <div className="max-w-7xl mx-auto pb-12">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">Tourist Places</h1>
-
-          {}
-          <form onSubmit={handleSearch} className="mb-12">
-            <div className="flex gap-2">
+      {/* ── Polished Minimalist Ribbon ── */}
+      <div className={`sticky top-20 z-40 bg-white/95 backdrop-blur-md transition-all duration-300 border-b border-sand-200/60 ${isScrolled ? 'py-2 shadow-sm' : 'py-4'}`}>
+        <div className="max-w-[1600px] mx-auto px-6 flex items-center justify-between gap-10">
+          <div className="flex items-center gap-6 shrink-0">
+            <h1 className="text-xl font-black text-slate-900 tracking-tight leading-none">
+              Discover <span className="text-accent-500">Places</span>
+            </h1>
+          </div>
+          <div className="flex-1 max-w-2xl">
+            <form onSubmit={handleSearchSubmit} className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <MapPin size={15} className="text-accent-500" />
+              </div>
               <input
                 type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search places..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Search city for attractions..."
+                className="w-full bg-sand-50/50 border border-sand-200/80 rounded-full pl-11 pr-28 py-2.5 text-[13px] font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-accent-500/5 focus:border-accent-500/40 transition-all"
               />
               <button
                 type="submit"
-                className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition flex items-center gap-2"
+                className="absolute right-1.5 top-1.5 bottom-1.5 bg-slate-900 hover:bg-accent-500 text-white px-6 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-300"
               >
-                <Search size={20} />
-                Search
+                Find
+              </button>
+            </form>
+          </div>
+          <div className="flex items-center gap-6 shrink-0">
+            <div className="hidden xl:flex items-center gap-2">
+              {QUICK_FILTERS.map((qf, idx) => {
+                const isActive = activeQuick === idx;
+                const Icon = qf.icon;
+                return (
+                  <button
+                    key={qf.label}
+                    onClick={() => handleQuickFilter(idx, qf)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-[10px] font-black transition-all border ${
+                      isActive
+                        ? 'bg-accent-500 text-white border-accent-500 shadow-lg shadow-accent-500/20'
+                        : 'bg-white text-slate-500 border-sand-200 hover:border-accent-200'
+                    }`}
+                  >
+                    <Icon size={12} />
+                    {qf.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="flex items-center gap-2 group cursor-pointer">
+              <ListFilter size={14} className="text-slate-400" />
+              <select
+                value={filters.sortBy}
+                onChange={handleSortChange}
+                className="bg-transparent text-[11px] font-black text-slate-800 focus:outline-none cursor-pointer uppercase tracking-wider"
+              >
+                {SORT_OPTIONS.map(o => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Main Layout ── */}
+      <div className="flex flex-1 max-w-[1600px] mx-auto w-full px-6 py-10 gap-12">
+
+        {/* ── MODULAR FILTER PANEL ── */}
+        <aside className="hidden lg:block shrink-0 w-80">
+          <div className="sticky top-32 flex flex-col gap-5">
+            
+            {/* Header Module */}
+            <div className="bg-white rounded-3xl p-5 border border-sand-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-slate-900 flex items-center justify-center text-white">
+                  <SlidersHorizontal size={18} />
+                </div>
+                <div>
+                  <h2 className="text-sm font-black text-slate-900 uppercase tracking-widest">Filters</h2>
+                </div>
+              </div>
+              {activeFilterCount > 0 && (
+                <button
+                  onClick={handleReset}
+                  className="w-8 h-8 rounded-full bg-sand-50 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-all flex items-center justify-center"
+                >
+                  <RotateCcw size={14} />
+                </button>
+              )}
+            </div>
+
+            {/* Scrollable Container */}
+            <div className="hostel-sidebar-scroll overflow-y-auto max-h-[calc(100vh-14rem)] flex flex-col gap-4 pr-2">
+              
+              {/* Minimum Rating */}
+              <div className="bg-white rounded-[2rem] p-6 border border-sand-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)] space-y-5">
+                <div className="flex items-center gap-2 text-[10px] font-black text-slate-900 uppercase tracking-[0.2em]">
+                  <Star size={12} className="text-accent-500" />
+                  Minimum Rating
+                </div>
+                <div className="flex gap-2">
+                  {[3, 4, 5].map((r) => {
+                    const isActive = Number(filters.minRating) === r;
+                    return (
+                      <button
+                        key={r}
+                        onClick={() => handleFilterChange('minRating', isActive ? '' : r)}
+                        className={`flex-1 py-3 rounded-2xl border text-[11px] font-black transition-all ${
+                          isActive ? 'bg-accent-500 border-accent-500 text-white shadow-lg shadow-accent-500/20' : 'bg-sand-50/50 border-sand-100 text-slate-400'
+                        }`}
+                      >
+                        {r}★
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Category Module */}
+              <div className="bg-white rounded-[2rem] p-6 border border-sand-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)] space-y-5">
+                <div className="flex items-center gap-2 text-[10px] font-black text-slate-900 uppercase tracking-[0.2em]">
+                  <Compass size={12} className="text-accent-500" />
+                  Place Category
+                </div>
+                <div className="space-y-2">
+                  {CATEGORIES.map((cat) => {
+                    const isActive = filters.category === cat;
+                    return (
+                      <button
+                        key={cat}
+                        onClick={() => handleFilterChange('category', isActive ? '' : cat)}
+                        className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl border transition-all ${
+                          isActive ? 'bg-slate-900 border-slate-900 text-white shadow-xl' : 'bg-sand-50/50 border-sand-100 text-slate-600'
+                        }`}
+                      >
+                        <span className="text-[11px] font-black uppercase tracking-wider">{cat}</span>
+                        {isActive && <CheckCircle2 size={14} />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Tips Module */}
+              <div className="bg-white rounded-[2rem] p-6 border border-sand-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)] space-y-4">
+                <div className="flex items-center gap-2 text-[10px] font-black text-slate-900 uppercase tracking-[0.2em]">
+                  <Heart size={12} className="text-accent-500" />
+                  Traveler Tip
+                </div>
+                <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight">Best visited during early mornings for the clearest mountain views and fewest crowds.</p>
+              </div>
+
+              <button
+                onClick={handleApplyFilters}
+                className="w-full bg-accent-500 hover:bg-accent-600 text-white py-5 rounded-[2rem] font-black text-[11px] uppercase tracking-[0.4em] shadow-lg transition-all active:scale-[0.98] mt-4 mb-10 shrink-0"
+              >
+                Update Search
+              </button>
+
+            </div>
+          </div>
+        </aside>
+
+        {/* Results */}
+        <main className="flex-1">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <h2 className="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">
+                {filters.city ? `Top Picks in ${filters.city}` : "Mountain Treasures"}
+              </h2>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-48 gap-6">
+              <div className="w-12 h-12 border-4 border-accent-500/10 border-t-accent-500 rounded-full animate-spin" />
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] animate-pulse">Mapping Horizons...</p>
+            </div>
+          ) : places.length === 0 ? (
+            <div className="bg-white rounded-[3rem] border border-sand-200 p-24 text-center shadow-sm">
+              <div className="w-20 h-20 bg-sand-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                <Search size={32} className="text-slate-200" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900 mb-2 uppercase tracking-widest">No places found</h3>
+              <button onClick={handleReset} className="bg-slate-900 text-white px-12 py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-accent-500 transition-all">
+                Reset Search
               </button>
             </div>
-          </form>
-
-          {}
-          {loading ? (
-            <div className="text-center text-gray-600">Loading places...</div>
-          ) : places.length === 0 ? (
-            <div className="text-center text-gray-600">No places found</div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {places.map((place) => (
-                <PlaceCard key={place._id} place={place} />
+            <div className="flex flex-col gap-6">
+              {places.map((place, idx) => (
+                <div
+                  key={place._id}
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: `${idx * 40}ms`, opacity: 0, animationFillMode: 'forwards' }}
+                >
+                  <PlaceCard place={place} />
+                </div>
               ))}
             </div>
           )}
-        </div>
+        </main>
       </div>
     </div>
   );

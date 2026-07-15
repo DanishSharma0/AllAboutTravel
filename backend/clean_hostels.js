@@ -1,0 +1,2 @@
+"const mongoose = require('mongoose');\nconst axios = require('axios');\nrequire('dotenv').config();\nconst Hostel = require('./src/models/Hostel');\nconst connectDB = require('./src/config/database');\n\nasync function clean() {\n  try {\n    await connec
+<truncated 975 bytes>

@@ -1,24 +1,53 @@
 const RentalBooking = require('../models/RentalBooking');
 const Rental = require('../models/Rental');
-
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 const City = require('../models/City');
 
-
+/**
+ * @desc Get all rentals with advanced filtering
+ */
 const getAllRentals = async (req, res) => {
   try {
-    const { city } = req.query;
+    const { city, minPrice, maxPrice, vehicleType, type, sortBy } = req.query;
     let query = { availabilityStatus: true };
+
+    // City Filter
     if (city) {
       const cityDoc = await City.findOne({ name: { $regex: new RegExp(city, 'i') } });
       if (cityDoc) {
         query.cityId = cityDoc._id;
-      } else {
-        return res.json([]);
       }
     }
-    const rentals = await Rental.find(query).populate('cityId', 'name state');
+
+    // Price Filter
+    if (minPrice || maxPrice) {
+      query.pricePerDay = {};
+      if (minPrice) query.pricePerDay.$gte = Number(minPrice);
+      if (maxPrice) query.pricePerDay.$lte = Number(maxPrice);
+    }
+
+    // Get parameters with fallback
+    const vType = vehicleType || type || req.query.type || req.query.vehicleType;
+
+    // Type Filter (Bike, Scooty, Car, EV)
+    if (vType && vType !== 'null' && vType !== '') {
+      query.vehicleType = vType;
+    }
+
+    // Initialize Find Query
+    let findQuery = Rental.find(query).populate('cityId', 'name state');
+
+    // Sorting
+    if (sortBy === 'price_asc') {
+      findQuery = findQuery.sort({ pricePerDay: 1 });
+    } else if (sortBy === 'price_desc') {
+      findQuery = findQuery.sort({ pricePerDay: -1 });
+    } else {
+      findQuery = findQuery.sort({ createdAt: -1 }); // Default: Newest
+    }
+
+    const rentals = await findQuery;
     res.json(rentals);
   } catch (error) {
     console.error('Get all rentals error:', error);
@@ -26,16 +55,13 @@ const getAllRentals = async (req, res) => {
   }
 };
 
-
 const getRentalsByCity = async (req, res) => {
   try {
     const { cityId } = req.params;
-
     const rentals = await Rental.find({
       cityId,
       availabilityStatus: true,
     }).populate('cityId', 'name state');
-
     res.json(rentals);
   } catch (error) {
     console.error('Get rentals error:', error);
@@ -43,24 +69,19 @@ const getRentalsByCity = async (req, res) => {
   }
 };
 
-
 const getRentalDetails = async (req, res) => {
   try {
     const { rentalId } = req.params;
-
     const rental = await Rental.findById(rentalId).populate('cityId', 'name state');
-
     if (!rental) {
       return res.status(404).json({ message: 'Rental not found' });
     }
-
     res.json(rental);
   } catch (error) {
     console.error('Get rental details error:', error);
     res.status(500).json({ message: 'Failed to fetch rental details', error: error.message });
   }
 };
-
 
 const bookRental = async (req, res) => {
   try {
@@ -71,19 +92,15 @@ const bookRental = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-
     const rental = await Rental.findById(rentalId);
-
     if (!rental) {
       return res.status(404).json({ message: 'Rental not found' });
     }
 
-
     const start = new Date(startDate);
     const end = new Date(endDate);
-    const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+    const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) || 1;
     const totalPrice = rental.pricePerDay * days;
-
 
     const booking = new RentalBooking({
       userId,
@@ -98,14 +115,12 @@ const bookRental = async (req, res) => {
 
     await booking.save();
 
-
     const provider = await User.findById(rental.providerId).select('paymentDetails businessDetails name');
-
 
     await Notification.create({
       recipient: rental.providerId,
       sender: userId,
-      message: `You have a new rental booking for ${rental.modelName}!`,
+      message: `You have a new rental booking for ${rental.modelName || rental.name}!`,
       type: 'BOOKING_NEW',
       relatedId: booking._id,
       onModel: 'RentalBooking'

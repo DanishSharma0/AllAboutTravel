@@ -1,0 +1,2 @@
+"const mongoose = require('mongoose');\nrequire('dotenv').config();\nconst Hostel = require('./src/models/Hostel');\nconst connectDB = require('./src/config/database');\n\nasync function check() {\n  try {\n    await connectDB();\n    const hostels = await
+<truncated 373 bytes>

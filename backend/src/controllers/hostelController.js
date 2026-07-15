@@ -7,8 +7,10 @@ const Notification = require('../models/Notification');
 
 const getAllHostels = async (req, res) => {
   try {
-    const { city } = req.query;
+    const { city, minPrice, maxPrice, minRating, roomType, facilities, sortBy } = req.query;
     let query = {};
+
+    // City filter
     if (city) {
       const cityDoc = await City.findOne({ name: { $regex: new RegExp(city, 'i') } });
       if (cityDoc) {
@@ -17,7 +19,38 @@ const getAllHostels = async (req, res) => {
         return res.json([]);
       }
     }
-    const hostels = await Hostel.find(query).populate('cityId', 'name state');
+
+    // Price range filter
+    if (minPrice || maxPrice) {
+      query.pricePerNight = {};
+      if (minPrice) query.pricePerNight.$gte = Number(minPrice);
+      if (maxPrice) query.pricePerNight.$lte = Number(maxPrice);
+    }
+
+    // Minimum rating filter
+    if (minRating) {
+      query.rating = { $gte: Number(minRating) };
+    }
+
+    // Room type filter
+    if (roomType) {
+      query.roomTypes = { $in: [roomType] };
+    }
+
+    // Facilities filter (comma-separated e.g. "WiFi,Parking")
+    if (facilities) {
+      const facilityList = facilities.split(',').map(f => f.trim());
+      query.facilities = { $all: facilityList };
+    }
+
+    // Sort
+    let sortOption = {};
+    if (sortBy === 'price_asc') sortOption.pricePerNight = 1;
+    else if (sortBy === 'price_desc') sortOption.pricePerNight = -1;
+    else if (sortBy === 'rating') sortOption.rating = -1;
+    else sortOption.createdAt = -1;
+
+    const hostels = await Hostel.find(query).sort(sortOption).populate('cityId', 'name state');
     res.json(hostels);
   } catch (error) {
     console.error('Get all hostels error:', error);

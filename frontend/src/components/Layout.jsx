@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import AIChatBot from './AIChatBot';
+import PageTransitionLoader from './PageTransitionLoader';
 import { Outlet, useLocation } from 'react-router-dom';
 
 const AUTH_ROUTES = ['/login', '/register'];
@@ -14,6 +15,7 @@ const Layout = () => {
 
         return (
             <>
+                <PageTransitionLoader />
                 <Outlet />
                 <AIChatBot />
             </>
@@ -22,6 +24,7 @@ const Layout = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-sand-50 text-slate-800">
+            <PageTransitionLoader />
             <Header />
             <main className="flex-grow pt-16">
                 <Outlet />

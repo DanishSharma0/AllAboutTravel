@@ -34,6 +34,21 @@ export const placesAPI = {
   getAll: (params) => api.get('/places', { params }),
   getById: (id) => api.get(`/places/${id}`),
   searchByCity: (cityId) => api.get(`/places/city/${cityId}`),
+  getPopularAttractions: (cityName, limit = 8, signal) =>
+    api.get(`/places/popular/${encodeURIComponent(cityName)}`, {
+      params: { limit },
+      signal,
+    }),
+  getNearbyPlaces: (lat, lng, type, radius = 5000, limit = 12, signal) =>
+    api.get('/places/nearby', {
+      params: { lat, lng, type, radius, limit },
+      signal,
+    }),
+  getPlaceDetails: (placeId, signal) =>
+    api.get('/places/details', {
+      params: { placeId },
+      signal,
+    }),
 };
 
 
@@ -107,6 +122,23 @@ export const paymentAPI = {
 export const reviewAPI = {
   getReviews: (entityType, entityId) => api.get(`/reviews/${entityType}/${entityId}`),
   createReview: (data) => api.post('/reviews', data),
+};
+
+export const recommendationAPI = {
+  getSmartRecommendations: (params) =>
+    api.get('/recommendations/smart-recommendations', {
+      params,
+    }),
+  getCityInfo: (cityId) => api.get(`/recommendations/city-info/${cityId}`),
+  getTouristAttractions: (cityId, limit = 12, bookedLatitude, bookedLongitude) =>
+    api.get(`/recommendations/attractions/${cityId}`, {
+      params: { limit, bookedLatitude, bookedLongitude },
+    }),
+  getSuggestedItinerary: (cityId, days = 3) =>
+    api.get('/recommendations/itinerary', { params: { cityId, days } }),
+  chatWithAssistant: (message, cityId) =>
+    api.post('/recommendations/chat', { message, cityId }),
+  getChatHistory: (cityId) => api.get(`/recommendations/chat-history/${cityId}`),
 };
 
 export default api;

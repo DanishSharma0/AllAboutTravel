@@ -28,11 +28,20 @@ const touristPlaceSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    googlePlaceId: {
+      type: String,
+      default: null,
+      index: true,
+    },
     rating: {
       type: Number,
       default: 0,
       min: 0,
       max: 5,
+    },
+    userRatingsTotal: {
+      type: Number,
+      default: 0,
     },
     reviews: [
       {
@@ -65,7 +74,31 @@ const touristPlaceSchema = new mongoose.Schema(
       default: null,
     },
     images: [String],
+    photos: [String],
     bestTimeToVisit: String,
+    wikiSummary: {
+      type: String,
+      default: null,
+    },
+    wikiUrl: {
+      type: String,
+      default: null,
+    },
+    googleMapsUrl: {
+      type: String,
+      default: null,
+    },
+    website: {
+      type: String,
+      default: null,
+    },
+    popularityScore: {
+      type: Number,
+      default: 0,
+    },
+    wikiLastFetched: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );

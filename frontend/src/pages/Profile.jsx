@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+
+
 import { AuthContext } from '../context/AuthContext';
 import { authAPI } from '../services/api';
 import { User, Mail, Phone, Edit2 } from 'lucide-react';
@@ -39,7 +39,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      
 
       <div className="pb-12 max-w-7xl mx-auto">
         <div className="max-w-2xl mx-auto">
@@ -128,7 +128,7 @@ export default function Profile() {
         </div>
       </div>
 
-      <Footer />
+      
     </div>
   );
 }

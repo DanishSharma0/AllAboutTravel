@@ -25,8 +25,16 @@ import ProviderDashboard from './pages/ProviderDashboard';
 import AddListing from './pages/AddListing';
 import Success from './pages/Success';
 import Failure from './pages/Failure';
+import ContinueExploring from './pages/ContinueExploring';
+import InitialLoader from './components/InitialLoader';
 
 function App() {
+  const [loading, setLoading] = React.useState(true);
+
+  if (loading) {
+    return <InitialLoader onFinish={() => setLoading(false)} />;
+  }
+
   return (
     <Router>
       <AuthProvider>
@@ -87,6 +95,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Failure />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/continue-exploring/:cityId"
+              element={
+                <ProtectedRoute>
+                  <ContinueExploring />
                 </ProtectedRoute>
               }
             />

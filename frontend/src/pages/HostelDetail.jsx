@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+
+
 import ReviewSection from '../components/ReviewSection';
 import { hostelsAPI } from '../services/api';
 import { AuthContext } from '../context/AuthContext';
@@ -121,7 +121,7 @@ export default function HostelDetail() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Header />
+      
 
       <div className="pt-12 pb-24 px-6 lg:px-12 max-w-7xl mx-auto">
         <button
@@ -297,7 +297,7 @@ export default function HostelDetail() {
         </div>
       </div>
 
-      <Footer />
+      
     </div>
   );
 }

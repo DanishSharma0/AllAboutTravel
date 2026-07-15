@@ -1,0 +1,2 @@
+"const mongoose = require('mongoose');\nrequire('dotenv').config();\nconst Hostel = require('./src/models/Hostel');\nconst connectDB = require('./src/config/database');\n\nconst VALID_HOSTEL_IMAGES = [\n  \"https://images.unsplash.com/photo-1555854832849-5
+<truncated 1314 bytes>

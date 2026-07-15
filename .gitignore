@@ -43,5 +43,10 @@ coverage/
 .env*.local
 .powrc
 
-# Scratch
+# Scratch & temp files
 scratch/
+backend/data/
+
+# Temporary/debug scripts
+backend/mongod.log
+backend/debug.json

@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { providerAPI, citiesAPI } from '../services/api';
-import { Building, Car, Map, ArrowLeft, Loader2 } from 'lucide-react';
+import { Building, Car, Map, ShoppingBag, ArrowLeft, Loader2 } from 'lucide-react';
 
 export default function AddListing() {
   const { user } = useContext(AuthContext);
@@ -31,6 +31,9 @@ export default function AddListing() {
     experienceYears: 0,
     chargesPerDay: 0,
     chargesPerHour: 0,
+    price: 0,
+    stock: 1,
+    shopCategory: 'Handicraft',
     image: '',
     description: '',
   });
@@ -102,6 +105,15 @@ export default function AddListing() {
           image: formData.image,
           description: formData.description,
         });
+      } else if (category === 'product') {
+        Object.assign(payload, {
+          name: formData.name,
+          price: formData.price,
+          stock: formData.stock,
+          category: formData.shopCategory,
+          image: formData.image,
+          description: formData.description,
+        });
       }
 
       await providerAPI.addListing(payload);
@@ -139,7 +151,7 @@ export default function AddListing() {
             )}
 
             {}
-            <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <button
                 type="button"
                 className={`py-4 flex flex-col items-center gap-2 rounded-xl border-2 transition ${category === 'hostel' ? 'border-slate-900 bg-slate-50 text-slate-900' : 'border-slate-100 text-slate-400 hover:border-slate-300'}`}
@@ -163,6 +175,14 @@ export default function AddListing() {
               >
                 <Map size={24} />
                 <span className="font-bold uppercase tracking-wider text-xs">Tour Guide</span>
+              </button>
+              <button
+                type="button"
+                className={`py-4 flex flex-col items-center gap-2 rounded-xl border-2 transition ${category === 'product' ? 'border-slate-900 bg-slate-50 text-slate-900' : 'border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                onClick={() => setCategory('product')}
+              >
+                <ShoppingBag size={24} />
+                <span className="font-bold uppercase tracking-wider text-xs">Shop Item</span>
               </button>
             </div>
 
@@ -282,6 +302,35 @@ export default function AddListing() {
                     <div>
                       <label className="block text-xs font-bold text-slate-500 tracking-wider uppercase mb-2">Charges Per Day (₹)</label>
                       <input type="number" name="chargesPerDay" value={formData.chargesPerDay} onChange={handleInputChange} required min="0" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {category === 'product' && (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-500 tracking-wider uppercase mb-2">Item Name</label>
+                      <input type="text" name="name" value={formData.name} onChange={handleInputChange} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-500 tracking-wider uppercase mb-2">Category</label>
+                      <select name="shopCategory" value={formData.shopCategory} onChange={handleInputChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900">
+                        <option value="Clothing">Clothing</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Handicraft">Handicraft</option>
+                        <option value="Jewelry">Jewelry</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-500 tracking-wider uppercase mb-2">Price (₹)</label>
+                      <input type="number" name="price" value={formData.price} onChange={handleInputChange} required min="0" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-500 tracking-wider uppercase mb-2">Stock Available</label>
+                      <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required min="0" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900" />
                     </div>
                   </div>
                 </>

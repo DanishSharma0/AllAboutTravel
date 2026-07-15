@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+
+
 import { bookingAPI, paymentAPI } from '../services/api';
 import { CheckCircle, CreditCard, ShieldCheck, Loader2, ArrowLeft, Smartphone, Building, Car, Map } from 'lucide-react';
 
@@ -135,7 +135,7 @@ export default function Checkout() {
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col">
-        <Header />
+        
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="bg-white rounded-3xl p-12 shadow-xl max-w-md w-full text-center animate-in fade-in zoom-in duration-500">
             <div className="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
@@ -148,7 +148,7 @@ export default function Checkout() {
             </div>
           </div>
         </div>
-        <Footer />
+        
         <style dangerouslySetInnerHTML={{ __html: `
           @keyframes progress {
             from { width: 0%; }
@@ -161,7 +161,7 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Header />
+      
       
       <div className="pt-12 pb-24 px-6 lg:px-12 max-w-5xl mx-auto">
         <button
@@ -261,7 +261,7 @@ export default function Checkout() {
 
         </div>
       </div>
-      <Footer />
+      
     </div>
   );
 }

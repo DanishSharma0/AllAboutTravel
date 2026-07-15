@@ -2,14 +2,14 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { providerAPI } from '../services/api';
-import { Building, Car, Map, Plus, ArrowRight, CreditCard, LayoutDashboard, CalendarCheck, CheckCircle, XCircle, Clock, Info } from 'lucide-react';
+import { Building, Car, Map, ShoppingBag, Plus, ArrowRight, CreditCard, LayoutDashboard, CalendarCheck, CheckCircle, XCircle, Clock, Info } from 'lucide-react';
 
 export default function ProviderDashboard() {
   const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('listings');
-  const [listings, setListings] = useState({ hostels: [], rentals: [], tours: [] });
-  const [bookings, setBookings] = useState({ hostels: [], rentals: [], tours: [] });
+  const [listings, setListings] = useState({ hostels: [], rentals: [], tours: [], products: [] });
+  const [bookings, setBookings] = useState({ hostels: [], rentals: [], tours: [], orders: [] });
   const [paymentDetails, setPaymentDetails] = useState({
     upiId: '',
     bankName: '',
@@ -93,10 +93,11 @@ export default function ProviderDashboard() {
     );
   }
 
-  const totalListings = listings.hostels.length + listings.rentals.length + listings.tours.length;
-  const allBookings = [...bookings.hostels.map(b => ({ ...b, category: 'hostel' })),
-  ...bookings.rentals.map(b => ({ ...b, category: 'rental' })),
-  ...bookings.tours.map(b => ({ ...b, category: 'tour' }))].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const totalListings = (listings.hostels?.length || 0) + (listings.rentals?.length || 0) + (listings.tours?.length || 0) + (listings.products?.length || 0);
+  const allBookings = [...(bookings.hostels || []).map(b => ({ ...b, category: 'hostel' })),
+  ...(bookings.rentals || []).map(b => ({ ...b, category: 'rental' })),
+  ...(bookings.tours || []).map(b => ({ ...b, category: 'tour' })),
+  ...(bookings.orders || []).map(b => ({ ...b, category: 'order' }))].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-6">
@@ -148,7 +149,7 @@ export default function ProviderDashboard() {
         {activeTab === 'listings' && (
           <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-300">
             {}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12">
               <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <p className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Total Listings</p>
                 <p className="text-4xl font-black text-slate-900">{totalListings}</p>
@@ -163,7 +164,11 @@ export default function ProviderDashboard() {
               </div>
               <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <p className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Tours</p>
-                <p className="text-4xl font-black text-slate-900">{listings.tours.length}</p>
+                <p className="text-4xl font-black text-slate-900">{listings.tours?.length || 0}</p>
+              </div>
+              <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Shop</p>
+                <p className="text-4xl font-black text-slate-900">{listings.products?.length || 0}</p>
               </div>
             </div>
 
@@ -207,12 +212,29 @@ export default function ProviderDashboard() {
                 <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg"><Map size={24} /></div>
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight">Your Tours</h2>
               </div>
-              {listings.tours.length === 0 ? (
+              {(!listings.tours || listings.tours.length === 0) ? (
                 <EmptyState icon={<Map size={48} />} title="No Tours Yet" link="/provider/add-listing" />
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {listings.tours.map(tour => (
                     <ListingCard key={tour._id} item={tour} type="tour" />
+                  ))}
+                </div>
+              )}
+            </section>
+
+            {}
+            <section className="pt-12 border-t border-slate-200">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-purple-100 text-purple-600 rounded-lg"><ShoppingBag size={24} /></div>
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Your Shop Items</h2>
+              </div>
+              {(!listings.products || listings.products.length === 0) ? (
+                <EmptyState icon={<ShoppingBag size={48} />} title="No Shop Items Yet" link="/provider/add-listing" />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {listings.products.map(product => (
+                    <ListingCard key={product._id} item={product} type="product" />
                   ))}
                 </div>
               )}
@@ -253,12 +275,14 @@ export default function ProviderDashboard() {
                           </td>
                           <td className="px-6 py-5">
                             <span className={`text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-tighter mr-2 ${booking.category === 'hostel' ? 'bg-blue-50 text-blue-600' :
-                                booking.category === 'rental' ? 'bg-orange-50 text-orange-600' : 'bg-emerald-50 text-emerald-600'
+                                booking.category === 'rental' ? 'bg-orange-50 text-orange-600' : 
+                                booking.category === 'order' ? 'bg-purple-50 text-purple-600' : 'bg-emerald-50 text-emerald-600'
                               }`}>
-                              {booking.category}
+                              {booking.category === 'order' ? 'shop' : booking.category}
                             </span>
                             <span className="font-bold text-slate-700 text-sm">
-                              {booking.hostelId?.name || booking.rentalId?.modelName || booking.guideId?.name}
+                              {booking.hostelId?.name || booking.rentalId?.modelName || booking.guideId?.name || (booking.items && booking.items.length > 0 ? booking.items[0].productId?.name : 'Products')}
+                              {booking.category === 'order' && booking.items?.length > 1 && ` (+${booking.items.length - 1} more)`}
                             </span>
                           </td>
                           <td className="px-6 py-5">
@@ -268,7 +292,7 @@ export default function ProviderDashboard() {
                             {booking.transactionId || '---'}
                           </td>
                           <td className="px-6 py-5 font-black text-slate-900">
-                            ₹{booking.totalPrice}
+                            ₹{booking.totalPrice || booking.totalAmount}
                           </td>
                           <td className="px-6 py-5">
                             {booking.paymentStatus === 'Pending Verification' && (
@@ -419,12 +443,13 @@ function ListingCard({ item, type }) {
           <img src={item.image} alt={item.name || item.modelName} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
         ) : (
           <div className="flex items-center justify-center w-full h-full text-slate-300 bg-slate-100">
-            {type === 'hostel' ? <Building size={48} /> : type === 'rental' ? <Car size={48} /> : <Map size={48} />}
+            {type === 'hostel' ? <Building size={48} /> : type === 'rental' ? <Car size={48} /> : type === 'product' ? <ShoppingBag size={48} /> : <Map size={48} />}
           </div>
         )}
         <div className="absolute top-4 left-4">
           <span className={`text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest shadow-sm ${type === 'hostel' ? 'bg-blue-600 text-white' :
-              type === 'rental' ? 'bg-orange-600 text-white' : 'bg-emerald-600 text-white'
+              type === 'rental' ? 'bg-orange-600 text-white' : 
+              type === 'product' ? 'bg-purple-600 text-white' : 'bg-emerald-600 text-white'
             }`}>
             {type}
           </span>
@@ -436,10 +461,10 @@ function ListingCard({ item, type }) {
         <div className="flex justify-between items-end">
           <div>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Starting at</p>
-            <p className="font-black text-2xl text-slate-900">₹{item.pricePerNight || item.pricePerDay || item.chargesPerDay} <span className="text-xs text-slate-400 font-bold uppercase tracking-tighter">/ day</span></p>
+            <p className="font-black text-2xl text-slate-900">₹{item.pricePerNight || item.pricePerDay || item.chargesPerDay || item.price} <span className="text-xs text-slate-400 font-bold uppercase tracking-tighter">{type === 'product' ? '' : '/ day'}</span></p>
           </div>
           <p className="text-xs font-black text-slate-900 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100">
-            {item.availableRooms || item.totalVehicles || 'Active'}
+            {item.availableRooms || item.totalVehicles || item.stock || 'Active'}
           </p>
         </div>
       </div>

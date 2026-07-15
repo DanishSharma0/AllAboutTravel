@@ -4,9 +4,10 @@ import {
   CheckCircle, Home, ArrowRight, Car, Map,
   MapPin, Star, Clock, Sparkles, ChevronRight,
 } from 'lucide-react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+
+
 import { rentalsAPI, tourGuidesAPI } from '../services/api';
+import { buildContinueExploringBookingDetails, buildSuccessRouteState } from '../utils/bookingFlow';
 
 /* ─── Inline Suggestion Cards (styled, no dependency on existing card components) ─── */
 
@@ -131,7 +132,7 @@ function SuggestionGuideCard({ guide }) {
 const Success = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { paymentId, orderId, cityData, bookingType } = location.state || {};
+  const { paymentId, orderId, cityData, bookingType, booking } = location.state || {};
 
   const [rentals, setRentals] = useState([]);
   const [guides, setGuides] = useState([]);
@@ -139,6 +140,12 @@ const Success = () => {
 
   const cityName = cityData?.name;
   const cityId = cityData?._id;
+  const bookingDetails = booking || {};
+  const serviceName = bookingDetails.serviceName || bookingDetails.name || cityName;
+  const amount = bookingDetails.totalPrice || bookingDetails.amount || 'N/A';
+  const checkInDate = bookingDetails.checkIn || bookingDetails.startDate || bookingDetails.date || null;
+  const bookingId = bookingDetails._id || bookingDetails.bookingId || null;
+  const continueExploringBookingDetails = buildContinueExploringBookingDetails({ booking: bookingDetails, bookingType, cityData });
 
   useEffect(() => {
     if (!cityId) return;
@@ -168,7 +175,7 @@ const Success = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Header />
+      
 
       <main className="flex-1 pt-20 pb-24 px-4 sm:px-6 lg:px-8">
         {/* ── Success Card ── */}
@@ -207,6 +214,25 @@ const Success = () => {
 
               {/* Action buttons */}
               <div className="space-y-3">
+                {cityId && (
+                  <button
+                    onClick={() => navigate(`/continue-exploring/${cityId}`, {
+                      state: {
+                        bookingDetails: {
+                          ...continueExploringBookingDetails,
+                          bookingId,
+                          serviceName,
+                          amount,
+                          checkIn: checkInDate,
+                        },
+                        bookingCategory: bookingType,
+                      },
+                    })}
+                    className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-black tracking-widest uppercase text-xs py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                  >
+                    🎉 Continue Exploring Your Trip <ArrowRight size={16} />
+                  </button>
+                )}
                 <button
                   onClick={() => navigate('/my-bookings')}
                   className="w-full bg-slate-900 text-white font-black tracking-widest uppercase text-xs py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
@@ -308,7 +334,7 @@ const Success = () => {
         )}
       </main>
 
-      <Footer />
+      
     </div>
   );
 };
